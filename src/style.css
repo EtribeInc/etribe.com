@@ -40,7 +40,7 @@ model-viewer {
 #welcome {
     position: absolute;
     top: 0em;
-    left: 1em;
+    left: .25em;
     width: 50vw;
     background-color: transparent; /* rgba(51,51,51,0.7); */
     font-size: 12vw;
@@ -55,6 +55,13 @@ model-viewer {
     position: absolute;
     bottom: 100px;
     right: 0em;
+    z-index: 1000;
+}
+
+#titleSub {
+    background-color: transparent; /* rgba(51,51,51,0.7); */
+    font-size: 4vw;
+    font-weight: 100;
     z-index: 1000;
 }
 
