@@ -12,6 +12,7 @@ body {
     font-size: 20px;
     background-color: rgba(23, 168, 4, 0.459) ;
     color: #fff;
+    user-select: none;
 }
 
 a, a:visited {
