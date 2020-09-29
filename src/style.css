@@ -45,6 +45,7 @@ model-viewer {
     width: 50vw;
     background-color: transparent; /* rgba(51,51,51,0.7); */
     font-size: 12vw;
+    color: chocolate;
     font-weight: 800;
     z-index: 1000;
 }
