@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap');
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    background-color: rgba(23, 168, 4, 0.459) ;
+    color: #fff;
+    user-select: none;
+}
+
+a, a:visited {
+    color: #fff;
+}
+
+a:hover {
+    background-color: rgb(95, 184, 11);
+    color: #000
+}
+
+#babylonCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    font-size: 0;
+}
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+    display: block;
+    font-size: 0;
+}
+
+#welcome {
+    position: absolute;
+    top: 0em;
+    left: .25em;
+    width: 50vw;
+    background-color: transparent; /* rgba(51,51,51,0.7); */
+    font-size: 12vw;
+    color: greenyellow;
+    font-weight: 800;
+    z-index: 1000;
+}
+
+#description {
+    background-color: transparent; /* rgba(51,51,51,0.7); */
+    padding: 10px;
+    width: 50vw;
+    position: absolute;
+    bottom: 100px;
+    right: 0em;
+    z-index: 1000;
+}
+
+#titleSub {
+    background-color: transparent; /* rgba(51,51,51,0.7); */
+    font-size: 4vw;
+    font-weight: 100;
+    z-index: 1000;
+}
+
+#attribution {
+    font-size: 0.5rem;
+    font-style: italic;
+}
+
+#intro {
+    max-width: 90%;
+}
+
+#actions {
+    max-width: 90%;
+}
+
+#actions img {
+    width: 3em;
+}
+
+
+
+#ar-button {
+    width: 80px;
+    height: 60px;
+    padding: 5px;
+    position: absolute;
+    right: 20px;
+    bottom: 50px;
+    font-size: 2vw;
+    color: #868686; 
+    border-color: #868686; 
+    border-style: solid; 
+    background-color: rgba(51,51,51,0.7); 
+    background-image: url('/assets/images/arbadge.svg'); 
+    background-size: 70px; 
+    background-repeat:no-repeat; 
+    background-position: center; 
+    border: none; 
+    outline: none;
+    transition: transform 0.125s ease-out; 
+} 
+
+@media only screen 
+    and (min-device-width: 300px) 
+    and (max-device-width: 812px)
+    and (orientation: portrait)  {
+
+        model-viewer {
+            height: 100%;
+        }
+        
+        #ar-button {
+            width: 200px;
+            height: 100px;
+            padding: 5px;
+            background-size: 200px; 
+            z-index: 3000;
+        }
+
+        #welcome {
+            position: absolute;
+            top: 0em;
+            right: 0em;
+            width: 100%;
+            background-color: transparent; /* rgba(51,51,51,0.7); */
+            font-size: 24vw;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        #description {
+            font-size: 36px;
+            width: 90vw;
+            padding: 20px;
+        }
+
+        #attribution {
+            font-size: 18px;
+        }
+
+}
+
+@media only screen 
+    and (min-device-height: 300px) 
+    and (max-device-height: 500px) {
+
+        #description {
+            font-size: 12px;
+        }
+
+        #attribution {
+            font-size: 10px;
+        }
+
+}
