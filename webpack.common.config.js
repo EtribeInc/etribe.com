@@ -35,6 +35,7 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: ROOT + '/assets/**/*', to: DESTINATION },
             { from: ROOT + '/360/**/*', to: DESTINATION },
+            { from: ROOT + '/content/**/*', to: DESTINATION },
             { from: ROOT + '/_redirects', to: DESTINATION },
             { from: ROOT + '/*.html', to: DESTINATION }
         ]),
