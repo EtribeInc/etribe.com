@@ -1,0 +1,7 @@
+Open the Code Editor
+Open Devtools
+Make window.JSHINT = null
+Paste the contents of jshint.js 
+https://raw.githubusercontent.com/jshint/jshint/master/dist/jshint.js
+8 into Devtools
+Change to esversion 9
