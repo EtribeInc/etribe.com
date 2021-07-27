@@ -1,6 +1,6 @@
 ASSET_PREFIX = "";
 SCRIPT_PREFIX = "";
-SCENE_PATH = "1163766.json";
+SCENE_PATH = "1195878.json";
 CONTEXT_OPTIONS = {
     'antialias': true,
     'alpha': false,
@@ -8,7 +8,7 @@ CONTEXT_OPTIONS = {
     'preferWebGl2': true,
     'powerPreference': "default"
 };
-SCRIPTS = [ 46894579, 46896943, 46896986, 46896987, 47820363, 48066886, 48066977, 48091257, 47210252, 48536088, 48535209, 48716139, 48807944 ];
+SCRIPTS = [ 50972908, 46894579, 46896943, 46896986, 46896987, 47820363, 48066886, 48066977, 48091257, 47210252, 48716139, 48807944, 49466791, 49583550, 49781320, 50229492, 50888430, 50889403, 50972062, 51562067, 51562090, 51562112, 51919446, 51920935, 51921299, 47820364, 47823090, 52365834, 52365835, 52365836 ];
 CONFIG_FILENAME = "config.json";
 INPUT_SETTINGS = {
     useKeyboard: true,
@@ -19,4 +19,5 @@ INPUT_SETTINGS = {
 pc.script.legacy = false;
 PRELOAD_MODULES = [
     {'moduleName' : 'Ammo', 'glueUrl' : 'files/assets/48535771/1/ammo.wasm.js', 'wasmUrl' : 'files/assets/48535772/1/ammo.wasm.wasm', 'fallbackUrl' : 'files/assets/48535770/1/ammo.js', 'preload' : true},
+    {'moduleName' : 'Recast', 'glueUrl' : 'files/assets/51562083/1/recast.wasm.js', 'wasmUrl' : 'files/assets/51562084/1/recast.wasm.wasm', 'fallbackUrl' : 'files/assets/51562082/1/recast.js', 'preload' : true},
 ];
