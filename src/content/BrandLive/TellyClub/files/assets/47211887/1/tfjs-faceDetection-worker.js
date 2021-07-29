@@ -1,7 +1,7 @@
 /*jshint esversion: 9 */
-importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.6.0/dist/tf.min.js");
+importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0/dist/tf.min.js");
 importScripts("https://unpkg.com/@tensorflow-models/blazeface");
-importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/dist/tf-backend-wasm.min.js");
+importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.min.js");
 
 
 onmessage = function(img) {
@@ -10,9 +10,9 @@ onmessage = function(img) {
     const image = new ImageData(img.data.data, img.data.width, img.data.height);
     
     tf.wasm.setWasmPaths({
-        'tfjs-backend-wasm.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/wasm-out/tfjs-backend-wasm.wasm',
-        'tfjs-backend-wasm-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/wasm-out/tfjs-backend-wasm-simd.wasm',
-        'tfjs-backend-wasm-threaded-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/wasm-out/tfjs-backend-wasm-threaded-simd.wasm'
+        'tfjs-backend-wasm.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm.wasm',
+        'tfjs-backend-wasm-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm-simd.wasm',
+        'tfjs-backend-wasm-threaded-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm-threaded-simd.wasm'
     });
     tf.setBackend('wasm').then(
         () => detectFace(
