@@ -1,0 +1,75 @@
+precision mediump float;
+varying vec2 v_coord;
+varying vec3 v_normal;
+varying vec3 v_pos;
+uniform float u_time;
+uniform vec3 u_eye;
+uniform vec4 u_color;
+uniform vec3 u_light_dir;
+uniform vec4 u_light_color;
+uniform float u_alpha_threshold;
+uniform sampler2D u_ocean_waves_normal2_texture;
+uniform sampler2D u_ocean_waves_normal1_texture;
+uniform samplerCube u_cube_default_texture;
+
+mat3 computeTBN(){
+      vec3 dp1 = dFdx( v_pos );
+      vec3 dp2 = dFdy( v_pos );
+      vec2 duv1 = dFdx( v_coord );
+      vec2 duv2 = dFdy( v_coord );
+      vec3 dp2perp = cross( dp2, v_normal );
+      vec3 dp1perp = cross( v_normal, dp1 );
+      vec3 tangent = dp2perp * duv1.x + dp1perp * duv2.x;
+      vec3 binormal = dp2perp * duv1.y + dp1perp * duv2.y;
+      float invmax = inversesqrt( max( dot(tangent,tangent), dot(binormal,binormal) ) );
+      return mat3( tangent * invmax, binormal * invmax, v_normal );
+}
+
+void main() {
+      vec3 normal = normalize(v_normal);
+      vec3 view_dir = normalize(v_pos - u_eye);
+      vec3 light_dir = normalize(u_light_dir);
+      vec3 half_dir = normalize(view_dir + light_dir);
+      mat3 TBN = computeTBN();
+      vec2 panner_73 = v_coord;
+      panner_73.x += 0.074 * u_time;
+      panner_73.y += 0.041 * u_time;
+      vec4 color_36 = texture2D(u_ocean_waves_normal1_texture, panner_73);
+      color_36 = (2.0 * color_36 )-1.0;
+      color_36 = vec4(TBN * color_36.xyz, 1.0);
+      float float_B59 = 1.600;
+      float mul_59 = v_pos.x * float_B59;
+      float add_61 = mul_59 + u_time;
+      float sin_67 = sin(add_61);
+      vec2 panner_72 = v_coord;
+      panner_72.x += 0.008 * sin_67;
+      panner_72.y += 0.160 * sin_67;
+      float float_69 = 0.500;
+      vec4 color_35 = texture2D(u_ocean_waves_normal2_texture, panner_72);
+      color_35 = (2.0 * color_35 )-1.0;
+      color_35 = vec4(TBN * color_35.xyz, 1.0);
+      vec4 mix_69 = mix(color_35,color_36,float_69);
+      normal = normalize(mix_69.xyz);
+      float float_45 = 1.400;
+      float float_34 = 220.000;
+      vec3 pixel_normal_ws = normal;
+      vec3 reflected_vector = reflect(view_dir,pixel_normal_ws);
+      vec4 color_5 = textureCube(u_cube_default_texture, reflected_vector);
+      float float_B68 = 0.370;
+      vec4 mul_68 = color_5 * float_B68;
+      float specular_intensity = 1.0;
+      float gloss = float_34;
+      vec3 diffuse_color = mul_68.xyz;
+      float lambertian = max(dot(light_dir,normal), 0.0);
+      vec3 diffuse_light = lambertian * vec3(1.0);
+      float ambient_intensity = 0.2;
+      vec3 ambient_light =  vec3(1.0) * ambient_intensity;
+      vec3 reflect_dir = reflect(light_dir, normal);
+      float spec_angle = max(dot(reflect_dir, view_dir), 0.0);
+      float specular_light = pow(spec_angle, gloss) * specular_intensity;
+      vec3 specular_color = u_light_color.xyz * specular_light;
+      vec3 refraction_vec = refract(view_dir,normal, 1.0 / float_45);
+      vec3 refraction_color = textureCube(u_cube_default_texture, refraction_vec).xyz;
+      vec3 emission = vec3(0.0);
+      gl_FragColor = vec4( emission + refraction_color + specular_color + (ambient_light + diffuse_light) * diffuse_color, 1.0 );
+}
