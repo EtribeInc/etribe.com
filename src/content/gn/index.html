@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 
-<body>
+    <body style="margin: 0px;height:100vh;display:flex;justify-content: center;align-items: center;">
 
-    <a id="ar-link" rel="ar" href=""> <img src="preview.jpg"></a>
+        <a id="ar-link" rel="ar" href=""> <img src="preview.jpg"></a>
 
-    <script>
-        const bannerUrl = new URL("./banner.html", document.baseURI).href;
-        const href = "./mossBlazers_tap.reality#custom=" + bannerUrl + "&customHeight=large&allowsContentScaling=0";
-        const linkElement = document.getElementById("ar-link");
-        linkElement.setAttribute("href", href);
-        linkElement.addEventListener("message", function (event) {
-            console.log(event);
-            window.location.href = "http://etribe.com";
-        }, false);
-    </script>
+        <script>
+            const bannerUrl = new URL("./banner.html", document.baseURI).href;
+            const href = "./mossBlazers_tap.reality#custom=" + bannerUrl + "&customHeight=large&allowsContentScaling=0";
+            const linkElement = document.getElementById("ar-link");
+            linkElement.setAttribute("href", href);
+            linkElement.addEventListener("message", function (event) {
+                console.log(event);
+                window.location.href = "http://etribe.com";
+            }, false);
+        </script>
 </body>
 
 </html>
