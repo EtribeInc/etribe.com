@@ -3,8 +3,18 @@
 
 <body>
 
-    <a id="ar-link" rel="ar" href="../3d/mossBlazers.reality#custom=https://example.com/customBanners/comingSoonBanner.html">  <img src="preview.jpg"></a>
+    <a id="ar-link" rel="ar"
+        href="../3d/mossBlazers.reality#custom=https://example.com/customBanners/comingSoonBanner.html"> <img
+            src="preview.jpg"></a>
 
+    <script>
+        const linkElement = document.getElementById("ar-link");
+        linkElement.addEventListener("message", function (event) {
+            if (event.data == "_apple_ar_quicklook_button_tapped") {
+                window.location.href = "http://etribe.com";   
+            }
+        }, false);
+    </script>
 </body>
 
 </html>
