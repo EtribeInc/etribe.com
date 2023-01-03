@@ -1,0 +1,28 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 16.1.2//EN
+N:Lindsay;Spencer;;;
+FN:Spencer Lindsay
+ORG:Etribe;
+TITLE:Technical Art Director / Principal
+EMAIL;type=INTERNET;type=WORK;type=pref:spence@etribe.com
+item1.EMAIL;type=INTERNET:webspence@me.com
+item1.X-ABLabel:Personal
+EMAIL;type=INTERNET;type=HOME:spencerlindsay@gmail.com
+TEL;type=IPHONE;type=CELL;type=VOICE;type=pref:831 4194915
+item2.ADR;type=HOME;type=pref:;;4211 Se Taggart St;Portland;OR;97206;United
+  States
+item2.X-ABADR:us
+item3.ADR;type=WORK:;;107 SE Washington St\nunit 700;Portland;OR;97214;Unit
+ ed States
+item3.X-ABADR:us
+NOTE:\n
+item4.URL;type=pref:http://etribe.com
+item4.X-ABLabel:_$!<HomePage>!$_
+BDAY;value=date:1964-04-13
+X-SOCIALPROFILE;type=twitter;x-user=spencerlindsay:http://twitter.com/spenc
+ erlindsay
+REV:2022-12-25T20:03:02Z
+X-IMAGETYPE:PHOTO
+X-IMAGEHASH:Xo1I6aLheHRBYIE+muIKJA==
+END:VCARD
