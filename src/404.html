@@ -9,7 +9,7 @@
             background: rgb(29,72,4);
             background: radial-gradient(circle, rgba(29,72,4,1) 0%, rgba(131,185,27,1) 100%);
             font-family: sans-serif;
-            color: #FFF;
+            color: #55ff00;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -30,16 +30,45 @@
             line-height: 1.5;
             margin-bottom: 2rem;
         }
+        .btn-grad {
+        background-image: linear-gradient(to right, #59ff00 0%, #2b5d0e  51%, #93f161  100%);
+        margin: 10px;
+        border: 1px solid #4CAF50;
+        font-size: 20px;
+        padding: 5px 15px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s;
+        background-size: 400% auto;
+        color: rgb(255, 255, 255);            
+        border-radius: 12px;
+        display: block;
+      }
+
+      .btn-grad:hover {
+        background-position: right center; /* change the direction of the change here */
+        color: #0F0;
+        text-decoration: none;
+      }
     </style>
 </head>
 <body >
     <h1>#404 - Welcome</h1>
     <p>
-        You have reached a place of certainty and perfect knowledge. Unfortunately, this place does not exist. Let us take you back to someplace that can help.
+        You have reached a place of certainty and perfect knowledge.
     </p>
     <p>
-        <a href="/index.html">Home</a>
+        Unfortunately, this place does not exist. <br>
+        Let us take you back to someplace that can help.
     </p>
+    <!--    <p>
+        <button type="button" class="btn-grad" onclick="alert('Hello world!')">Click Me!</button>
+-->    </p>
+    <p>
+        <button type="button" class="btn-grad" onclick="a href=/index.html">HOME</a></button>
+    </p>
+
+
 </body>
 </html>
 
