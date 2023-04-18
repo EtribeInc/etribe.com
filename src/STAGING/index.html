@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        html,
+        body {
+            background: rgb(29,72,4);
+            background: radial-gradient(circle, rgba(29,72,4,1) 0%, rgba(131,185,27,1) 100%);
+            height: 100%;
+            justify-content: left;
+            align-items: left;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: left;
+            align-items: flex-end;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 100px;
+            gap: 10px;
+        }
+
+        button {
+            font-size: 18px;
+            font-family: sans-serif;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ffaa00;
+        }
+    </style>
+    <title>Responsive HTML Web Page with Three Buttons</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="buttons">
+            <button>reel</button>
+            <button>about</button>
+            <button>contact</button>
+        </div>
+    </div>
+</body>
+
+</html>
