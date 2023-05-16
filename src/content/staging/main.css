@@ -18,7 +18,7 @@ body{
     body {
         font-size: 20px;
     }
-} 
+}
 
 .container {
     position: absolute;
@@ -31,6 +31,9 @@ body{
     display: flex;
     flex-direction: column;
     gap: 1em;
+
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .header img{
@@ -43,6 +46,32 @@ body{
 
 .video {
     flex: 1;
+    width: 100%;
+}
+
+.video iframe {
+    margin: 0;
+    padding: 0;
+    
+    aspect-ratio: 16 / 9;
+}
+
+/* Adjust which direction is controlling the size of the video based on the viewport aspect ratio.
+    This is necessary because Vimeo is doing their own internal aspect-ratio handling.
+    The 64/55 value here is dependent on other factors like margins/etc. so may need adjusting
+    if those change.
+ */
+@media (min-aspect-ratio: 64 / 55) {
+    .video iframe {
+        height: 100%;
+    }
+}
+
+@media (max-aspect-ratio: 64 / 55) {
+    .video iframe {
+        width: 100%;
+        
+    }
 }
 
 #navigation{
