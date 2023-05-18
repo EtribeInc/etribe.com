@@ -39,6 +39,10 @@ body{
     pointer-events: none;
 }
 
+a {
+    pointer-events: auto;
+}
+
 .header img{
     width:300px;
 }
