@@ -48,7 +48,11 @@ a:link {
     background-color: transparent; 
     text-decoration: none;
   }
-  
+a:visited {
+    color: rgb(255, 196, 0); 
+    background-color: transparent; 
+    text-decoration: none;
+}  
 .header img{
     width:150px;
 }
