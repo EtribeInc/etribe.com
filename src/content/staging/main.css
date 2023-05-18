@@ -35,6 +35,8 @@ body{
 
     justify-content: flex-start;
     align-items: flex-start;
+
+    pointer-events: none;
 }
 
 .header img{
@@ -43,6 +45,7 @@ body{
 
 .text{
     max-width: 720px;
+    pointer-events: auto;
 }
 
 .video {
@@ -79,6 +82,7 @@ body{
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
+    pointer-events: auto;
 }
 
 #navigation a {
@@ -96,4 +100,11 @@ body{
 
 #navigation a:hover {
     background-color: #ffaa00;
+}
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+    display: block;
+    font-size: 0;
 }
