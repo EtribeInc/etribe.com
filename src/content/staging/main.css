@@ -11,6 +11,7 @@ body{
     font-style: normal;
     font-weight: normal;
     color: white;
+    
 }
 
 /* Mobile */
@@ -42,9 +43,14 @@ body{
 a {
     pointer-events: auto;
 }
-
+a:link {
+    color: rgb(255, 196, 0); 
+    background-color: transparent; 
+    text-decoration: none;
+  }
+  
 .header img{
-    width:300px;
+    width:150px;
 }
 
 .text{
@@ -95,15 +101,15 @@ a {
     text-decoration: none;
     padding: 0.2em 0.5em;
     cursor: pointer;
-    background-color: #00000022;
-    color: white;
+    background-color: #FFFFFF;
+    color: black;
     border: none;
     border-radius: 1em;
     transition: background-color 0.3s;
 }
 
 #navigation a:hover {
-    background-color: #ffaa00;
+    background-color: #ff7300;
 }
 
 model-viewer {
