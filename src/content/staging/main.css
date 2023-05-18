@@ -42,17 +42,10 @@ body{
 
 a {
     pointer-events: auto;
+    color: rgb(255, 196, 0); 
+    background-color: transparent; 
+    text-decoration: none;
 }
-a:link {
-    color: rgb(255, 196, 0); 
-    background-color: transparent; 
-    text-decoration: none;
-  }
-a:visited {
-    color: rgb(255, 196, 0); 
-    background-color: transparent; 
-    text-decoration: none;
-}  
 .header img{
     width:150px;
 }
