@@ -28,7 +28,6 @@ Assets/UnityARKitPlugin*
 
 # Visual Studio 2015 cache directory
 /.vs/
-.vscode
 
 # Gradle cache directory
 .gradle/
