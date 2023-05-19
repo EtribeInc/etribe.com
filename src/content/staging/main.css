@@ -103,6 +103,7 @@ header img{
 .video iframe {
     margin: 0;
     padding: 0;
+    width: 100%;
     
     aspect-ratio: 16 / 9;
 }
@@ -112,19 +113,6 @@ header img{
     The 64/51 value here is dependent on other factors like margins/etc. so may need adjusting
     if those change.
  */
-@media (min-aspect-ratio: 1 / 2) {
-    .video iframe {
-        height: 100%;
-    }
-}
-
-@media (max-aspect-ratio: 2 / 1) {
-    .video iframe {
-        width: 100%;
-        
-    }
-}
-
 /* @media (min-aspect-ratio: 64 / 51) {
     .video iframe {
         height: 100%;
