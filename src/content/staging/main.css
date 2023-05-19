@@ -112,7 +112,20 @@ header img{
     The 64/51 value here is dependent on other factors like margins/etc. so may need adjusting
     if those change.
  */
-@media (min-aspect-ratio: 64 / 51) {
+@media (min-aspect-ratio: 1 / 9) {
+    .video iframe {
+        height: 100%;
+    }
+}
+
+@media (max-aspect-ratio: 9 / 1) {
+    .video iframe {
+        width: 100%;
+        
+    }
+}
+
+/* @media (min-aspect-ratio: 64 / 51) {
     .video iframe {
         height: 100%;
     }
@@ -123,7 +136,8 @@ header img{
         width: 100%;
         
     }
-}
+} */
+
 
 model-viewer {
     position: absolute;
