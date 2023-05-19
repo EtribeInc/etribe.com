@@ -1,7 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     background: rgb(29,72,4);
     background: radial-gradient(circle, rgb(131,185,27) 0%,rgb(29,72,4) 100%);
@@ -17,14 +17,18 @@ body{
 .container {
     position: absolute;
     top: 0;
-    bottom: 0;
     left: 0;
     right: 0;
-    margin: calc(env(safe-area-inset-top, 0em) + 1em) calc(env(safe-area-inset-right, 0em) + 1.5em) calc(env(safe-area-inset-bottom, 0em) + 1.5em) calc(env(safe-area-inset-left, 0em) + 1.5em);
+    --top-margin: calc(env(safe-area-inset-top, 0em) + 1em);
+    --right-margin: calc(env(safe-area-inset-right, 0em) + 1.5em);
+    --bottom-margin: calc(env(safe-area-inset-bottom, 0em) + 1.5em);
+    --left-margin: calc(env(safe-area-inset-left, 0em) + 1.5em);
+    min-height: calc(100vh - (var(--top-margin) + var(--bottom-margin)));
+    margin: var(--top-margin) var(--right-margin) var(--bottom-margin) var(--left-margin);
 
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 1em;
 
     justify-content: flex-start;
@@ -104,16 +108,16 @@ header img{
 
 /* Adjust which direction is controlling the size of the video based on the viewport aspect ratio.
     This is necessary because Vimeo is doing their own internal aspect-ratio handling.
-    The 64/55 value here is dependent on other factors like margins/etc. so may need adjusting
+    The 64/51 value here is dependent on other factors like margins/etc. so may need adjusting
     if those change.
  */
-@media (min-aspect-ratio: 64 / 55) {
+@media (min-aspect-ratio: 64 / 51) {
     .video iframe {
         height: 100%;
     }
 }
 
-@media (max-aspect-ratio: 64 / 55) {
+@media (max-aspect-ratio: 64 / 51) {
     .video iframe {
         width: 100%;
         
@@ -121,8 +125,15 @@ header img{
 }
 
 model-viewer {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
     display: block;
     font-size: 0;
 }
