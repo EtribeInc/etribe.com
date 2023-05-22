@@ -17,6 +17,11 @@ body{
 
 /* Spencer Containers WIP */
 
+.gallery{
+    max-width: 1900px;
+    pointer-events: auto;
+}
+
 .container_row {
     display: flex;
     flex-wrap: wrap;
@@ -103,10 +108,9 @@ header img{
 }
 
 .text{
-    max-width: 720px;
+    max-width: 750px;
     pointer-events: auto;
 }
-
 .video {
     flex: 1;
     width: 100%;
