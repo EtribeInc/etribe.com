@@ -20,6 +20,7 @@ body{
 .gallery{
     max-width: 1900px;
     pointer-events: auto;
+    font-size: 12px;
 }
 
 .container_row {
