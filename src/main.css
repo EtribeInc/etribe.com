@@ -4,9 +4,8 @@ body{
     padding: 0;
     min-height: 100vh;
     width: 100vw;
-    background: rgb(29,72,4);
     background: radial-gradient(circle, rgb(131,185,27) 0%,rgb(29,72,4) 100%);
-
+    /* background-image: url("./assets/images/portlandSkyPano_00.png"); */
     font-size: 16px;
     font-family: Helvetica Neue;
     font-style: normal;
@@ -15,7 +14,7 @@ body{
     
 }
 
-/* Spencer Containers WIP */
+/* Spencer Containers */
 
 .gallery{
     max-width: 800px;
