@@ -26,6 +26,9 @@ body{
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
+    background-color: rgb(18, 110, 130);
+    padding: 20px;
+    border-radius: 15px;
 
   }
 .container_column {
