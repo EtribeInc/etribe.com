@@ -109,7 +109,10 @@ header img{
 
 .text{
     max-width: 750px;
+    background-color: rgb(18, 110, 130);
     pointer-events: auto;
+    padding: 20px;
+    border-radius: 15px;
 }
 .video {
     flex: 1;
