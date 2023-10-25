@@ -15,3 +15,10 @@ galleryItems.forEach(item => {
 function closeModal() {
     modal.style.display = "none";
 }
+
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && modal.style.display === "block") {
+        closeModal();
+    }
+});
