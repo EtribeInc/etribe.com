@@ -1,58 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>etribe-WLF-Proposal</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="gallery-container">
-        <h1>WLF Content Preview</h1>
-        <p>Imagine an immersive art installation that seeks to demonstrate the profound 
-            connection between your focus and your perception of reality. Through the 
-            synergy of cutting-edge technology, computer vision, and projection mapping, 
-            we'll craft an experience where your collective attention within a crowd will 
-            shape the narrative of a video wall teeming with contrasting emotions and visuals</p>
-        <div class="gallery">
-            <div class="gallery-item" data-image="./images/layout.png">
-                <img src="./images/layout.png" alt="layout">
-                <p>Layout</p>
-            </div>
-            <div class="gallery-item" data-image="./images/WLF_00.png">
-                <img src="./images/WLF_00.png" alt="00">
-                <p>00</p>
-            </div>
-            <div class="gallery-item" data-image="./images/WLF_01.png">
-                <img src="./images/WLF_01.png" alt="01">
-                <p>01</p>
-            </div>
-            <div class="gallery-item" data-image="./images/WLF_02.png">
-                <img src="./images/WLF_02.png" alt="02">
-                <p>02</p>
-            </div>
-            <div class="gallery-item" data-image="./images/WLF_03.png">
-                <img src="./images/WLF_03.png" alt="03">
-                <p>03</p>
-            </div>
-            </div>
-        </div>
-        <h1>
-            <a style="color:rgb(192, 251, 160);" href="./VenueScan/index.html">3D Scan of Venue</a>
-        </h1>
-        <h1>
-            <a style="color:rgb(192, 251, 160);" href="https://vimeo.com/895584796" target="_blank" rel="noreferrer">Latest Artwork</a>
-        </h1>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <canvas id="canvas3d"></canvas>
     
-    </div>
-    
-    <!-- Modal to display enlarged image -->
-    <div class="modal" id="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
-        <div id="caption"></div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
+    <!-- Import maps polyfill -->
+    <!-- Remove this when import maps will be widely supported -->
+    <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "@splinetool/runtime": "https://unpkg.com/@splinetool/runtime@1.0.28/build/runtime.js"
+        }
+      }
+    </script>
+    <script type="module" src="./src/main.js"></script>
+  </body>
 </html>
