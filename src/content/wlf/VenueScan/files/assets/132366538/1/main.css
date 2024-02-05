@@ -1,0 +1,60 @@
+body{
+    background: rgb(29,72,4);
+    background: radial-gradient(circle, rgba(29,72,4,1) 0%, rgba(131,185,27,1) 100%);
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica Neue;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    color: rgba(255,255,255,1);
+    width: 100%;
+    height: 100%;
+    
+    justify-content: left;
+    align-items: left;
+    position: absolute;
+    top: 0;
+    pointer-events: none;
+}
+
+#application-canvas{
+    z-index: 10;
+}
+
+.header img{
+    width:100%;
+}
+
+.text{
+    max-width: 720px;
+}
+
+.text div{
+    padding: 50px;
+}
+
+#navigation{
+    position: absolute;
+    bottom: 0;
+    padding: 50px;
+}
+
+button {
+    font-size: 18px;
+    font-family: sans-serif;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #00000022;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ffaa00;
+}
