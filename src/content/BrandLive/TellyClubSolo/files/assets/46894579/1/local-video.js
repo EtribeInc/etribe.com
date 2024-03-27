@@ -209,7 +209,7 @@ LocalVideo.prototype.initialize = function () {
                                 "simd": new URL(this.wasmPaths.wasm_simd.getFileUrl(), window.location.href).href,
                                 "threaded": new URL(this.wasmPaths.wasm_threaded_simd.getFileUrl(), window.location.href).href
                             },
-                            "model": new URL(this.tensorFlowModel.getFileUrl(), window.location.origin).href
+                            "model": new URL(this.tensorFlowModel.getFileUrl(), window.location.href).href
                         }
                     });
 
@@ -229,7 +229,7 @@ LocalVideo.prototype.initialize = function () {
                                 "simd": new URL(this.wasmPaths.wasm_simd.getFileUrl(), window.location.href).href,
                                 "threaded": new URL(this.wasmPaths.wasm_threaded_simd.getFileUrl(), window.location.href).href
                             },
-                            "model": new URL(this.handModel.getFileUrl(), window.location.origin).href
+                            "model": new URL(this.handModel.getFileUrl(), window.location.href).href
                         }
                     });
                 } else {
