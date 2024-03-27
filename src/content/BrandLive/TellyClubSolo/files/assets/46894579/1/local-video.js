@@ -202,12 +202,12 @@ LocalVideo.prototype.initialize = function () {
                     this.worker.addEventListener("message", (event) => this.handleWorkerEvent(event));
                     this.worker.postMessage({
                         "setup": {
-                            "tfjs": new URL(this.tensorFlow.getFileUrl(), window.location.origin).href,
-                            "backend": new URL(this.tensorFlowBackend.getFileUrl(), window.location.origin).href,
+                            "tfjs": new URL(this.tensorFlow.getFileUrl(), window.location.href).href,
+                            "backend": new URL(this.tensorFlowBackend.getFileUrl(), window.location.href).href,
                             "wasmPaths": {
-                                "wasm": new URL(this.wasmPaths.wasm.getFileUrl(), window.location.origin).href,
-                                "simd": new URL(this.wasmPaths.wasm_simd.getFileUrl(), window.location.origin).href,
-                                "threaded": new URL(this.wasmPaths.wasm_threaded_simd.getFileUrl(), window.location.origin).href
+                                "wasm": new URL(this.wasmPaths.wasm.getFileUrl(), window.location.href).href,
+                                "simd": new URL(this.wasmPaths.wasm_simd.getFileUrl(), window.location.href).href,
+                                "threaded": new URL(this.wasmPaths.wasm_threaded_simd.getFileUrl(), window.location.href).href
                             },
                             "model": new URL(this.tensorFlowModel.getFileUrl(), window.location.origin).href
                         }
@@ -222,12 +222,12 @@ LocalVideo.prototype.initialize = function () {
                     this.handWorker.addEventListener("message", (event) => this.handleHandWorkerEvent(event));
                     this.handWorker.postMessage({
                         "setup": {
-                            "tfjs": new URL(this.tensorFlow.getFileUrl(), window.location.origin).href,
-                            "backend": new URL(this.tensorFlowBackend.getFileUrl(), window.location.origin).href,
+                            "tfjs": new URL(this.tensorFlow.getFileUrl(), window.location.href).href,
+                            "backend": new URL(this.tensorFlowBackend.getFileUrl(), window.location.href).href,
                             "wasmPaths": {
-                                "wasm": new URL(this.wasmPaths.wasm.getFileUrl(), window.location.origin).href,
-                                "simd": new URL(this.wasmPaths.wasm_simd.getFileUrl(), window.location.origin).href,
-                                "threaded": new URL(this.wasmPaths.wasm_threaded_simd.getFileUrl(), window.location.origin).href
+                                "wasm": new URL(this.wasmPaths.wasm.getFileUrl(), window.location.href).href,
+                                "simd": new URL(this.wasmPaths.wasm_simd.getFileUrl(), window.location.href).href,
+                                "threaded": new URL(this.wasmPaths.wasm_threaded_simd.getFileUrl(), window.location.href).href
                             },
                             "model": new URL(this.handModel.getFileUrl(), window.location.origin).href
                         }
