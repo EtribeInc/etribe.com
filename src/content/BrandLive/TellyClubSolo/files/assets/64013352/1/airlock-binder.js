@@ -28,7 +28,8 @@ AirlockBinder.attributes.add('baseShareLink', {
     title: 'Base Link',
     description: 'Base link to share.',
     type: 'string',
-    default: 'https://tellyclub.com/join-room'
+    //default: 'https://tellyclub.com/join-room'
+    default: 'https://etribe.com/'
 });
 
 // initialize code called once per entity

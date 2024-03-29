@@ -24,7 +24,8 @@ UIOverlayBinder.attributes.add('baseShareLink', {
     title: 'Base Link',
     description: 'Base link to share.',
     type: 'string',
-    default: 'https://tellyclub.com/join-room'
+    //default: 'https://tellyclub.com/join-room'
+    default: 'https://etribe.com/'
 });
 
 // UIOverlayBinder.attributes.add('userImage', {
@@ -71,7 +72,8 @@ UIOverlayBinder.prototype.bindEvents = function (element) {
         this.app.fire("player:exit");
         this.app.exiting = true;
         setTimeout(() => {
-            let url = "https://www.tellyclub.com/left-room?server=" + getURLParameter("server") + "&port=" + getURLParameter("port");
+            //let url = "https://www.tellyclub.com/left-room?server=" + getURLParameter("server") + "&port=" + getURLParameter("port");
+            let url = 'https://etribe.com/';
             window.location.replace(url);
         }, 4000);
 

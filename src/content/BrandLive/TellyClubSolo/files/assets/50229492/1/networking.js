@@ -46,7 +46,8 @@ Networking.prototype.initialize = function () {
     socket.emit('join', { username: "user", model: characterID, token, adminToken }, (error, userData) => {
         if (error) {
             alert(error);
-            let url = "https://www.tellyclub.com/join-room" + "?server=" + getURLParameter("server") + "&port=" + getURLParameter("port");
+            //let url = "https://www.tellyclub.com/join-room" + "?server=" + getURLParameter("server") + "&port=" + getURLParameter("port");
+            let url = 'https://etribe.com/';
             window.location.replace(url);
         } else {
             this.initializeData(userData);
@@ -57,7 +58,8 @@ Networking.prototype.initialize = function () {
 
     socket.on("disconnect", () => {
         alert("You have been kicked!");
-        let url = "https://www.tellyclub.com/";
+        //let url = "https://www.tellyclub.com/";
+        let url = 'https://etribe.com/';
         window.location.replace(url);
     });
 

@@ -4,12 +4,13 @@ ShareLink.attributes.add('baseLink', {
     title: 'Base Link',
     description: 'Base link to share.',
     type: 'string',
-    default: 'https://tellyclub.com/join-room'
+    //default: 'https://tellyclub.com/join-room'
+    default: 'https://etribe.com/'
 });
 
 // initialize code called once per entity
-ShareLink.prototype.initialize = function() {
-    this.entity.element.text = this.baseLink + "?server="+getURLParameter("server")+"&port="+getURLParameter("port");
+ShareLink.prototype.initialize = function () {
+    this.entity.element.text = this.baseLink + "?server=" + getURLParameter("server") + "&port=" + getURLParameter("port");
 
     this.entity.on("copyLink", this.copyLink, this);
 };
@@ -17,10 +18,10 @@ ShareLink.prototype.initialize = function() {
 
 
 // update code called every frame
-ShareLink.prototype.copyLink = function() {
-    navigator.clipboard.writeText(this.entity.element.text).then(function() {
+ShareLink.prototype.copyLink = function () {
+    navigator.clipboard.writeText(this.entity.element.text).then(function () {
         console.log('Async: Copying Link to clipboard was successful!');
-    }, function(err) {
+    }, function (err) {
         console.error('Async: Could not copy text: ', err);
     });
 };
