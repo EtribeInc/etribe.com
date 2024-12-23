@@ -8,9 +8,11 @@
 body {
   font-family: Arial, sans-serif;
   color: #fff;
-/*  background: #2e2e2e url("/images/BG_fade_00.png") no-repeat center;*/
-background: content-box radial-gradient(rgb(59, 62, 68), rgb(37, 44, 46));
-background-size: 100%;
+  background: #2e2e2e;
+  background: radial-gradient(circle, #2e3135 0%, rgb(16, 16, 18) 100%);
+  background-position: 75% 25%;
+/* background: #2e2e2e url("/images/BG_fade_00.png") no-repeat center;
+  background-size: 100% auto; */
 }
 
 /* Header */
@@ -40,23 +42,26 @@ header {
 .top-nav ul {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 30px; /* Increase spacing */
 }
 
 .top-nav a {
   text-decoration: none;
-  color: #fff;
+  color: #939393;
   font-weight: bold;
   transition: color 0.3s;
 }
 
 .top-nav a:hover {
   color: #a8ff00;
+  text-decoration: underline;
 }
 
 /* Main Content */
 main {
   padding: 150px 20px; /* Add space under the fixed header */
+  padding-top: 80px; /* Adjust this to match the height of the header */
+  padding-left: 38px; /* Match the left padding to the header */
 }
 
 .content-container {
@@ -66,13 +71,30 @@ main {
   padding-left: 20px; /* Align to the left */
 }
 
+/* Features Section */
 .features {
   font-size: 20px;
-  line-height: 2;
+  line-height: 1.8;
+  margin-top: 30px; /* Add spacing from the top */
+  max-width: 800px; /* Keep text contained */
 }
 
-.features p {
-  margin: 10px 0;
+.feature-item {
+  margin-bottom: 40px; /* Space between features */
+}
+
+.feature-item h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #939393; /* Match logo color for headers */
+}
+
+.feature-item p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd; /* Slightly lighter than headers */
+  margin: 0;
 }
 
 .background-text {
@@ -85,7 +107,7 @@ main {
 footer {
   text-align: center;
   padding: 10px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.3);
   color: #fff;
 }
 
