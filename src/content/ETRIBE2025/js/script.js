@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const navLinks = document.querySelector('.nav-links');
+    const navLinks = document.querySelector('.top-nav ul');
     const header = document.querySelector('header');
   
     // Ensure header scroll animation works
