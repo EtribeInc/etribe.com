@@ -10,7 +10,8 @@ body {
   color: #fff;
   background: #2e2e2e;
   background: radial-gradient(circle, #2e3135 0%, rgb(16, 16, 18) 100%);
-  background-position: 75% 25%;
+  background-position: 25% 75%;
+  background-size: 3000px 2000px;
 /* background: #2e2e2e url("/images/BG_fade_00.png") no-repeat center;
   background-size: 100% auto; */
 }
@@ -36,29 +37,32 @@ header {
 .logo {
   font-size: 24px;
   font-weight: bold;
+  padding-left: 18px;
+  padding-top: 20px;
   color: #a8ff00; /* Bright green for the logo */
 }
 
 .top-nav ul {
   list-style: none;
   display: flex;
-  gap: 30px; /* Increase spacing */
+  gap: 70px; /* Increase spacing */
 }
 
 .top-nav a {
   text-decoration: none;
   color: #939393;
-  font-weight: bold;
+  font-weight:normal;
   transition: color 0.3s;
 }
 
 .top-nav a:hover {
-  color: #a8ff00;
-  text-decoration: underline;
+  color: #ffffff;
+  text-decoration:none;
 }
 
 /* Main Content */
 main {
+  flex: 1; /* This allows the main content to grow and push the footer down */
   padding: 150px 20px; /* Add space under the fixed header */
   padding-top: 80px; /* Adjust this to match the height of the header */
   padding-left: 38px; /* Match the left padding to the header */
@@ -76,7 +80,7 @@ main {
   font-size: 20px;
   line-height: 1.8;
   margin-top: 30px; /* Add spacing from the top */
-  max-width: 800px; /* Keep text contained */
+  max-width: 400px; /* Keep text contained */
 }
 
 .feature-item {
@@ -102,6 +106,13 @@ main {
   color: rgba(255, 255, 255, 0.2); /* Subtle text for background */
   text-align: center;
   font-weight: bold;
+}
+
+/* Make the wrapper fill the viewport */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height of the viewport */
 }
 
 footer {
