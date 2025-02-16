@@ -51,7 +51,7 @@ header {
 .top-nav a {
   text-decoration: none;
   color: #939393;
-  font-weight:normal;
+  font-weight:lighter;
   transition: color 0.3s;
 }
 
@@ -79,12 +79,12 @@ main {
 .features {
   font-size: 20px;
   line-height: 1.8;
-  margin-top: 30px; /* Add spacing from the top */
-  max-width: 400px; /* Keep text contained */
+  margin-top: 60px; /* Add spacing from the top */
+  max-width: 600px; /* Keep text contained */
 }
 
 .feature-item {
-  margin-bottom: 40px; /* Space between features */
+  margin-bottom: 80px; /* Space between features */
 }
 
 .feature-item h2 {
