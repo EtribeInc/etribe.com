@@ -17,7 +17,8 @@ html, body{
 body {
   font-family: Verdana, Arial, Helvetica, Sans-Serif;
   font-size: 8pt;
-  margin: 0px;  
+  margin: 0px;
+  background-color: black;  
 }
 
 h1 {
@@ -54,9 +55,6 @@ body, td {
 #mypanoviewer {
 	height:100%;
   width: 100%;
-  -webkit-box-shadow: 5px 5px 10px rgb(180,180,180);
-  -moz-box-shadow: 5px 5px 10px rgb(180,180,180);
-  box-shadow: 5px 5px 10px rgb(180,180,180);
 }
 
 #notice,
@@ -78,16 +76,6 @@ body, td {
 }
 </style>
 
-<!--[if lte IE 8]>
-<style type="text/css">
-/* Internet Explorer cannot fill a table row up to the remaining height; scrollbars will appear
-  therefore set the middle row to only 70% :
-*/  
-#middletd {
-	height:70%;
-}
-</style>
-<![endif]-->    
 
 <!-- -------------   code to embed the panorama viewer:   ------------ -->
 <script type="text/javascript" src="PTGuiViewer.js"></script>
@@ -140,7 +128,7 @@ viewer.embed("mypanoviewer");
       <tr>
         <td id="middletd">
           <div id="mypanoviewer"></div>
-          <div id="notice">created with PTGui <a href="https://www.ptgui.com/" target="_blank">stitching software</a></div>
+          <div id="notice">etribe</div>
         </td>
       </tr>
       <tr>
