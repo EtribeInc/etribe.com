@@ -11,9 +11,7 @@ body {
   background: #2e2e2e;
   background: radial-gradient(circle, #2e3135 0%, rgb(16, 16, 18) 100%);
   background-position: 25% 75%;
-  background-size: 3000px 2000px;
-/* background: #2e2e2e url("/images/BG_fade_00.png") no-repeat center;
-  background-size: 100% auto; */
+  background-size: 100% 100%;
 }
 
 /* Header */
