@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Time Since Inauguration</title>
+  <title>Time Since Inauguration & Countdown to End</title>
   <style>
     body {
       margin: 0;
@@ -15,16 +15,16 @@
       flex-direction: column; /* Stack elements vertically */
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       text-align: center;
     }
 
     h1 {
       font-size: clamp(1.5rem, 5vw, 3rem);
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
 
-    #counter {
+    #counter, #countdown {
       font-size: clamp(1.5rem, 5vw, 2.5rem); /* Responsive text size */
       line-height: 1.4;
       padding: 1rem;
@@ -41,8 +41,16 @@
   <h1>Time Since Inauguration</h1>
   <div id="counter">Loading...</div>
 
+  <h1>Time Until The End</h1>
+  <div id="countdown">Loading...</div>
+
   <script>
-    const inaugurationDate = new Date('2025-01-20T17:00:00Z'); // 12 PM EST = 17:00 UTC
+    // President Trump's inauguration: January 20, 2025 at 12:00 PM EST
+    // Converted to UTC: 17:00:00Z
+    const inaugurationDate = new Date('2025-01-20T17:00:00Z');
+
+    // End of the presidency (assuming a 4-year term): January 20, 2029 at 12:00 PM EST (17:00:00Z)
+    const presidencyEndDate = new Date('2029-01-20T17:00:00Z');
 
     function updateCounter() {
       const currentDate = new Date();
@@ -60,8 +68,37 @@
          <span class="number">${seconds}</span> seconds`;
     }
 
-    setInterval(updateCounter, 1000);
+    function updateCountdown() {
+      const currentDate = new Date();
+      const timeRemaining = presidencyEndDate - currentDate;
+
+      // If the presidency has ended, display a message.
+      if (timeRemaining <= 0) {
+        document.getElementById('countdown').innerHTML = "Presidency Ended";
+        return;
+      }
+
+      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+      const seconds = Math.floor((timeRemaining / 1000) % 60);
+
+      document.getElementById('countdown').innerHTML =
+        `<span class="number">${days}</span> days, 
+         <span class="number">${hours}</span> hours, 
+         <span class="number">${minutes}</span> minutes, 
+         <span class="number">${seconds}</span> seconds`;
+    }
+
+    // Update both timers every second
+    setInterval(() => {
+      updateCounter();
+      updateCountdown();
+    }, 1000);
+
+    // Initial call to display immediately
     updateCounter();
+    updateCountdown();
   </script>
 </body>
 </html>
