@@ -12,7 +12,7 @@
       background-color: #2c2c2c; /* dark grey */
       color: #cccccc; /* light grey */
       display: flex;
-      flex-direction: column; /* Stack elements vertically */
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
@@ -35,6 +35,15 @@
       color: #FF0909; /* bright red for numbers */
       font-weight: bold;
     }
+    
+    footer {
+      margin-top: 20px;
+    }
+    
+    footer img {
+      max-width: 200px;
+      height: auto;
+    }
   </style>
 </head>
 <body>
@@ -43,10 +52,15 @@
 
   <h1>Time Until The End</h1>
   <div id="countdown">Loading...</div>
+  
+  <footer>
+    <a href="http://5calls.org" target="_blank">
+      <img src="./images/5callslogoA.png" alt="5calls.org" />
+    </a>
+  </footer>
 
   <script>
-    // President Trump's inauguration: January 20, 2025 at 12:00 PM EST
-    // Converted to UTC: 17:00:00Z
+    // President Trump's inauguration: January 20, 2025 at 12:00 PM EST (17:00:00Z)
     const inaugurationDate = new Date('2025-01-20T17:00:00Z');
 
     // End of the presidency (assuming a 4-year term): January 20, 2029 at 12:00 PM EST (17:00:00Z)
