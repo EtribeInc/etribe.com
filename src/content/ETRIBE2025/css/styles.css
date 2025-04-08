@@ -18,6 +18,8 @@ html, body {
   position: relative;
   height: 100vh;
   scroll-snap-align: start;
+/* Test background */
+  /* background-image: url("../images/Section_01/0001.png"); */
   /* Optionally, add background images here for fallback or design purposes */
 }
 
