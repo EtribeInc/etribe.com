@@ -51,19 +51,20 @@ document.querySelectorAll('.animation-section').forEach(section => {
     console.warn("No images loaded for section:", folder);
   }
 
-  // Create a ScrollTrigger to drive the background image sequence animation
+  // Create a ScrollTrigger to drive the background image sequence animation.
+  // This animation will update 'imageSequence.frame' as you scroll, and pin the section while it plays.
   gsap.to(imageSequence, {
     frame: frameCount - 1,
     ease: "none",
     scrollTrigger: {
       trigger: section,
-      // start: "top top",
+      // "top" means the top of the section triggers the start.
+      // "+=2000" means the animation spans an additional 2000 pixels of scroll.
       start: "top",
-      // end: "bottom top",
       end: "+=2000",
       scrub: true,
-      pin: true, // Pin the section while the background animation plays
-      markers: true, // Uncomment to debug the scroll trigger area
+      pin: true, // Pin the section while its animation plays.
+      markers: true, // Debug markers – disable if not needed.
     },
     onUpdate: render
   });
