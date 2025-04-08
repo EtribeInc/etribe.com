@@ -1,152 +1,47 @@
-/* General Reset */
+/* Reset & Global Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
-  font-family: Arial, sans-serif;
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #262626;
   color: #fff;
-  background: #2e2e2e;
-  background: radial-gradient(circle, #2e3135 0%, rgb(16, 16, 18) 100%);
-  background-position: 25% 75%;
-  background-size: 100% 100%;
+  font-family: sans-serif;
+  overflow-x: hidden;
 }
 
-/* Header */
-header {
-  padding: 20px 50px 20px 38px; /* Match left padding to features */
+/* Each animation section fills the viewport and uses scroll snapping */
+.animation-section {
+  position: relative;
+  height: 100vh;
+  scroll-snap-align: start;
+  /* Optionally, add background images here for fallback or design purposes */
+}
+
+/* The canvas covers the full viewport */
+.bg-canvas {
   position: fixed;
   top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Behind the content */
 }
 
-.container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  padding-left: 18px;
-  padding-top: 20px;
-  color: #a8ff00; /* Bright green for the logo */
-}
-
-.top-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 70px; /* Increase spacing */
-}
-
-.top-nav a {
-  text-decoration: none;
-  color: #939393;
-  font-weight:lighter;
-  transition: color 0.3s;
-}
-
-.top-nav a:hover {
-  color: #ffffff;
-  text-decoration:none;
-}
-
-/* Main Content */
-main {
-  flex: 1; /* This allows the main content to grow and push the footer down */
-  padding: 150px 20px; /* Add space under the fixed header */
-  padding-top: 80px; /* Adjust this to match the height of the header */
-  padding-left: 38px; /* Match the left padding to the header */
-}
-
-.content-container {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  padding-left: 20px; /* Align to the left */
-}
-
-/* Features Section */
-.features {
-  font-size: 20px;
-  line-height: 1.8;
-  margin-top: 60px; /* Add spacing from the top */
-  max-width: 600px; /* Keep text contained */
-}
-
-.feature-item {
-  margin-bottom: 80px; /* Space between features */
-}
-
-.feature-item h2 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #939393; /* Match logo color for headers */
-}
-
-.feature-item p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #ddd; /* Slightly lighter than headers */
-  margin: 0;
-}
-
-.background-text {
-  font-size: 60px;
-  color: rgba(255, 255, 255, 0.2); /* Subtle text for background */
+/* Foreground content overlay */
+.content {
+  position: relative;
+  z-index: 1;
   text-align: center;
-  font-weight: bold;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5); /* For improved text readability */
 }
 
-/* Make the wrapper fill the viewport */
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Full height of the viewport */
-}
-
-footer {
-  text-align: center;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.3);
-  color: #fff;
-}
-
-/* Responsive Design */
-.toggle-button {
-  display: none;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .top-nav ul {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    background: rgba(0, 0, 0, 0.9);
-    position: absolute;
-    top: 70px; /* Adjust based on header height */
-    right: 20px;
-    padding: 10px;
-  }
-
-  .top-nav ul.active {
-    display: flex;
-  }
-
-  .toggle-button {
-    display: block;
-  }
+/* Enable scroll snapping */
+html {
+  scroll-behavior: smooth;
+  /* scroll-snap-type: y mandatory; */
 }

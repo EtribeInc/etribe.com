@@ -1,51 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>etribe</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="./css/styles.css" />
+  <!-- Include GSAP and ScrollTrigger via CDN -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  <script defer src="./js/script.js"></script>
 </head>
 <body>
-<div class="wrapper">
-    <header>
-    <div class="container">
-      <div class="logo"><img src="./images/etribe_logo.png" alt="logo"></div>
-      <nav class="top-nav">
-        <ul>
-          <li><a href="#page01"> page 01</a></li>
-          <li><a href="#page02"> page 02</a></li>
-          <li><a href="#page03"> page 03</a></li>
-          <li><a href="#page04"> page 04</a></li>
-        </ul>
-        <button class="toggle-button">☰</button>
-    </nav>
+  <!-- Section 1: Home -->
+  <section class="animation-section" data-folder="Section_01" data-framecount="60">
+    <canvas class="bg-canvas"></canvas>
+    <div class="content">
+      <h1>Welcome to etribe</h1>
+      <p>Introducing our brand</p>
     </div>
-  </header>
-  <main>
-    <div class="content-container">
-        <div class="features">
-          <div class="feature-item">
-            <h2>Feature 01</h2>
-            <p><img src="./images/Feature_icon_00.png" alt="Etribe Demo"></p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
-          </div>
-          <div class="feature-item">
-            <h2>Feature 02</h2>
-            <p><img src="./images/Feature_icon_00.png" alt="Etribe Demo"></p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
-          </div>
-          <div class="feature-item">
-            <h2>Feature 03</h2>
-            <p><img src="./images/Feature_icon_00.png" alt="Etribe Demo"></p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
-          </div>
-        </div>
-      </div>
-      </main>
-  <footer>
-    <p>&copy; 2025 etribe</p>
-  </footer>
-</div>
+  </section>
+  
+  <!-- Section 2: Services -->
+  <section class="animation-section" data-folder="Section_02" data-framecount="60">
+    <canvas class="bg-canvas"></canvas>
+    <div class="content">
+      <h2>Services</h2>
+      <p>Discover what we offer</p>
+    </div>
+  </section>
+  
+  <!-- Section 3: Blog -->
+  <section class="animation-section" data-folder="Section_03" data-framecount="60">
+    <canvas class="bg-canvas"></canvas>
+    <div class="content">
+      <h2>Blog</h2>
+      <p>Latest news and insights</p>
+    </div>
+  </section>
+  
+  <!-- Section 4: Contact -->
+  <section class="animation-section" data-folder="Section_04" data-framecount="60">
+    <canvas class="bg-canvas"></canvas>
+    <div class="content">
+      <h2>Contact</h2>
+      <p>Get in touch with us</p>
+    </div>
+  </section>
 </body>
 </html>
