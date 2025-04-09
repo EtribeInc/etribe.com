@@ -31,7 +31,7 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 2; /* Behind the content */
+  z-index: 0; /* Behind the content */
   pointer-events: none; /* Prevent interaction with the canvas */
 }
 
@@ -41,7 +41,7 @@ html, body {
   z-index: 1;
   text-align: center;
   padding: 20px;
-  background: rgba(0, 0, 0, 0.5); /* For improved text readability */
+  background: rgba(0, 0, 0, 0); /* For improved text readability */
   height: 100%;
   display: flex;
   flex-direction: column;

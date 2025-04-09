@@ -1,69 +1,126 @@
 gsap.registerPlugin(ScrollTrigger);
 
+// Get the main canvas
+const mainCanvas = document.getElementById('main-canvas');
+const context = mainCanvas.getContext('2d');
+
+// Set canvas dimensions to match the viewport
+const setCanvasSize = () => {
+  mainCanvas.width = window.innerWidth;
+  mainCanvas.height = window.innerHeight;
+};
+setCanvasSize();
+window.addEventListener('resize', setCanvasSize);
+
+// Store all animation data
+const animations = [];
+
+// Process each section
 document.querySelectorAll('.animation-section').forEach(section => {
-  const canvas = section.querySelector('.bg-canvas');
-  const context = canvas.getContext('2d');
-
   // Get folder name and frame count from data attributes
-  const folder = section.dataset.folder; // e.g., "Section_04"
-  const frameCount = Number(section.dataset.framecount); // e.g., 200
-
-  const imageSequence = { frame: 0 };
-  const images = [];
-
+  const folder = section.dataset.folder;
+  const frameCount = Number(section.dataset.framecount);
+  
+  // Create animation data object
+  const animation = {
+    folder,
+    frameCount,
+    currentFrame: 0,
+    images: [],
+    loaded: false,
+    isActive: false
+  };
+  
   // Function to generate the URL for a given frame index
   const currentFrame = index => `./images/${folder}/${String(index + 1).padStart(4, '0')}.png`;
-
+  
   // Preload images
+  let loadedCount = 0;
   for (let i = 0; i < frameCount; i++) {
     const img = new Image();
     img.src = currentFrame(i);
-    images.push(img);
+    img.onload = () => {
+      loadedCount++;
+      if (loadedCount === frameCount) {
+        animation.loaded = true;
+        // If this is the first animation, render it immediately
+        if (animations.length === 1) {
+          render();
+        }
+      }
+    };
+    animation.images.push(img);
   }
-
-  // Define render as an arrow function (now available before setCanvasSize is called)
-  const render = () => {
-    const frameIndex = Math.floor(imageSequence.frame);
-    const image = images[frameIndex];
-    // Ensure image is loaded before rendering
-    if (!image || !image.complete || !image.naturalWidth) return;
-    // Calculate scale to cover canvas while preserving aspect ratio
-    const scale = Math.max(canvas.width / image.naturalWidth, canvas.height / image.naturalHeight);
-    const x = (canvas.width - image.naturalWidth * scale) / 2;
-    const y = (canvas.height - image.naturalHeight * scale) / 2;
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, x, y, image.naturalWidth * scale, image.naturalHeight * scale);
-  };
-
-  // Set canvas dimensions to match the viewport, now that render is defined
-  const setCanvasSize = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    render(); // re-render on resize
-  };
-  setCanvasSize();
-  window.addEventListener('resize', setCanvasSize);
-
-  // Assign the onload handler for the first image (after render is defined)
-  if (images[0]) {
-    images[0].onload = render;
-  } else {
-    console.warn("No images loaded for section:", folder);
-  }
-
-  // Create a ScrollTrigger to drive the background image sequence animation.
-  // This animation will update 'imageSequence.frame' as you scroll, and pin the section while it plays.
-  gsap.to(imageSequence, {
-    frame: frameCount - 1,
-    ease: "none",
-    scrollTrigger: {
-      trigger: section,
-      start: "top top",
-      end: "bottom top",
-      scrub: 1, // Smooth scrubbing effect
-      pin: false, // Don't pin the section
-      markers: false, // Debug markers – disable if not needed.
+  
+  // Add to animations array
+  animations.push(animation);
+  
+  // Create a ScrollTrigger for this section
+  ScrollTrigger.create({
+    trigger: section,
+    start: "top center",
+    end: "bottom center",
+    onEnter: () => {
+      // Deactivate all animations
+      animations.forEach(a => a.isActive = false);
+      // Activate this animation
+      animation.isActive = true;
     },
-    onUpdate: render
+    onEnterBack: () => {
+      // Deactivate all animations
+      animations.forEach(a => a.isActive = false);
+      // Activate this animation
+      animation.isActive = true;
+    },
+    onLeave: () => {
+      // Keep the last frame visible until the next section is entered
+      if (animation.isActive) {
+        animation.currentFrame = frameCount - 1;
+      }
+    },
+    onLeaveBack: () => {
+      // Keep the first frame visible until the previous section is entered
+      if (animation.isActive) {
+        animation.currentFrame = 0;
+      }
+    }
+  });
+  
+  // Create a separate ScrollTrigger for the frame animation
+  ScrollTrigger.create({
+    trigger: section,
+    start: "top center",
+    end: "bottom center",
+    onUpdate: (self) => {
+      if (animation.isActive && animation.loaded) {
+        // Calculate frame based on progress
+        animation.currentFrame = Math.floor(self.progress * (frameCount - 1));
+        render();
+      }
+    }
   });
 });
+
+// Render function to draw the current active animation
+function render() {
+  // Clear the canvas
+  context.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+  
+  // Find the active animation
+  const activeAnimation = animations.find(a => a.isActive);
+  
+  if (activeAnimation && activeAnimation.loaded) {
+    const frameIndex = activeAnimation.currentFrame;
+    const image = activeAnimation.images[frameIndex];
+    
+    if (image && image.complete && image.naturalWidth) {
+      // Calculate scale to cover canvas while preserving aspect ratio
+      const scale = Math.max(mainCanvas.width / image.naturalWidth, mainCanvas.height / image.naturalHeight);
+      const x = (mainCanvas.width - image.naturalWidth * scale) / 2;
+      const y = (mainCanvas.height - image.naturalHeight * scale) / 2;
+      
+      // Draw the image
+      context.drawImage(image, x, y, image.naturalWidth * scale, image.naturalHeight * scale);
+    }
+  }
+}
