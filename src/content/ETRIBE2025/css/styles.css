@@ -18,7 +18,8 @@ html, body {
   position: relative;
   height: 100vh;
   scroll-snap-align: start;
-/* Test background */
+  overflow: hidden; /* Prevent content overflow */
+  /* Test background */
   /* background-image: url("../images/Section_01/0001.png"); */
   /* Optionally, add background images here for fallback or design purposes */
 }
@@ -30,7 +31,8 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1; /* Behind the content */
+  z-index: 2; /* Behind the content */
+  pointer-events: none; /* Prevent interaction with the canvas */
 }
 
 /* Foreground content overlay */
@@ -40,10 +42,23 @@ html, body {
   text-align: center;
   padding: 20px;
   background: rgba(0, 0, 0, 0.5); /* For improved text readability */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Enable scroll snapping */
 html {
   scroll-behavior: smooth;
+  /* Disable scroll snapping as it conflicts with the animation */
   /* scroll-snap-type: y mandatory; */
+}
+
+/* Ensure body has no margin or padding that could cause gaps */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }

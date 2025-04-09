@@ -58,13 +58,11 @@ document.querySelectorAll('.animation-section').forEach(section => {
     ease: "none",
     scrollTrigger: {
       trigger: section,
-      // "top" means the top of the section triggers the start.
-      // "+=2000" means the animation spans an additional 2000 pixels of scroll.
-      start: "top",
-      end: "+=2000",
-      scrub: true,
-      pin: true, // Pin the section while its animation plays.
-      markers: true, // Debug markers – disable if not needed.
+      start: "top top",
+      end: "bottom top",
+      scrub: 1, // Smooth scrubbing effect
+      pin: false, // Don't pin the section
+      markers: false, // Debug markers – disable if not needed.
     },
     onUpdate: render
   });
