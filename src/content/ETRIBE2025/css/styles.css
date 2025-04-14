@@ -27,10 +27,10 @@ html, body {
 /* The canvas covers the full viewport */
 .bg-canvas {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 25vh;
+  left: 25vw;
+  width: 50vw;
+  height: 50vh;
   z-index: 0; /* Behind the content */
   pointer-events: none; /* Prevent interaction with the canvas */
 }
@@ -41,8 +41,8 @@ html, body {
   z-index: 1;
   text-align: center;
   padding: 20px;
-  background: rgba(0, 0, 0, 0); /* For improved text readability */
-  height: 100%;
+  background: rgba(0, 0, 0, .2); /* For improved text readability */
+  height: 10%;
   display: flex;
   flex-direction: column;
   justify-content: center;
