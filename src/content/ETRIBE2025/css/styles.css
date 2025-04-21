@@ -9,8 +9,40 @@ body {
   background: #1e1e1e;
   color: #eee;
   line-height: 1.6;
+  scroll-behavior: smooth; /* enables smooth scrolling */
+  padding-top: 70px; /* offset for fixed nav */
 }
 
+/* Site Nave */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(30, 30, 30, 0.95);
+  padding: 1rem 2rem;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.site-nav a {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.site-nav a:hover {
+  color: #fff;
+}
 /* Sections */
 .section {
   min-height: 100vh;
