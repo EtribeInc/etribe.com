@@ -43,6 +43,18 @@ body {
 .site-nav a:hover {
   color: #fff;
 }
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* logo on left, links on right */
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
 /* Sections */
 .section {
   min-height: 100vh;
