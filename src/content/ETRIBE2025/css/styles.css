@@ -61,10 +61,10 @@ body {
 }
 
 .fade-slide.right {
-  transform: translateX(40px);
+  transform: translateX(180px);
 }
 .fade-slide.left {
-  transform: translateX(-40px);
+  transform: translateX(-180px);
 }
 
 .fade-slide.in-view {
@@ -79,6 +79,7 @@ html {
 /* Sections */
 .section {
   min-height: 100vh;
+  scroll-margin-top: 90px; /* matches nav height + breathing room */
   display: flex;
   flex-direction: column;
 }
@@ -88,9 +89,10 @@ html {
   background-position: center;
   height: 50vh;
   display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Align content to the left */
-  padding-left: 5%; /* Add some left padding */
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 5%;
+  padding-top: 2rem;
 }
 
 .section-header h1 {
