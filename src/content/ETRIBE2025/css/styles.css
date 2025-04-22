@@ -55,6 +55,27 @@ body {
   width: auto;
 }
 
+.fade-slide {
+  opacity: 0;
+  transition: all 0.6s ease-out;
+}
+
+.fade-slide.right {
+  transform: translateX(40px);
+}
+.fade-slide.left {
+  transform: translateX(-40px);
+}
+
+.fade-slide.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 /* Sections */
 .section {
   min-height: 100vh;
