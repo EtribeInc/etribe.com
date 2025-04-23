@@ -120,6 +120,11 @@ html {
   font-size: 1.1rem;
 }
 
+/* Indented list */
+.indented-list {
+  padding-left: 3rem;
+}
+
 /* Example background images */
 #page01 .section-header { background-image: url('../images/sectionBG_01.png'); }
 #page02 .section-header { background-image: url('../images/sectionBG_02.png'); }
