@@ -172,3 +172,13 @@ html {
     display: flex;
   }
 }
+/* Global content link styles */
+a {
+  color: #eee;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
