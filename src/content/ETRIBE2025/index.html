@@ -78,7 +78,7 @@
           <br>
           <br>
           Known for bridging design and engineering, Spencer brings clarity to complex projects, aligning technical 
-          pipelines with artistic goals  from early concept through delivery.</p>
+          pipelines with artistic goals from early concept through delivery.</p>
           <br>
           <br>
           Have a potential project for us? <a href="#page04">Please reach out.</a>
@@ -102,7 +102,21 @@
         <h2>make happy</h2>
       </div>
       <div class="section-content fade-slide left">
-        <p>Content for section four.</p>
+        <form name="contact" method="POST" data-netlify="true">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+
+          <button type="submit">Send</button>
+        </form>
+        <p id="form-response" style="display: none; color: #a8ff00; font-weight: bold; margin-top: 1rem;">
+          Thank you! Your message has been submitted.
+        </p>
       </div>
     </section>
   </main>

@@ -31,4 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  const form = document.querySelector("form[name='contact']");
+  const responseMsg = document.getElementById("form-response");
+
+  if (form && responseMsg) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); // prevent page refresh
+      responseMsg.style.display = "block"; // show confirmation
+      form.submit(); // continue submitting to Netlify
+    });
+  }
 });
