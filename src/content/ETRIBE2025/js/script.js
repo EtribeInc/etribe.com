@@ -22,5 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.addEventListener("click", () => {
       navLinks.classList.toggle("active");
     });
+
+    // Close nav when a link is clicked (mobile)
+    const navItems = document.querySelectorAll(".site-nav ul a");
+    navItems.forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+      });
+    });
   }
 });
