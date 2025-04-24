@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       const data = new FormData(form);
+      data.append("form-name", "contact");
 
       fetch("/", {
         method: "POST",
