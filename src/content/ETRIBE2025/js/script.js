@@ -36,10 +36,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const responseMsg = document.getElementById("form-response");
 
   if (form && responseMsg) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault(); // prevent page refresh
-      responseMsg.style.display = "block"; // show confirmation
-      form.submit(); // continue submitting to Netlify
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(data).toString()
+      })
+      .then(() => {
+        form.style.display = "none";
+        responseMsg.style.display = "block";
+      })
+      .catch((error) => {
+        console.error("Form submission error:", error);
+        alert("Something went wrong. Please try again.");
+      });
     });
   }
 });
