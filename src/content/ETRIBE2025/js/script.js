@@ -56,4 +56,41 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  // Reusable lightbox for image enlargement
+  const lightboxImages = document.querySelectorAll(".lightbox-image");
+
+  lightboxImages.forEach(img => {
+    img.addEventListener("click", () => {
+      const fullSrc = img.dataset.full || img.src;
+      const overlay = document.createElement("div");
+      overlay.style.cssText = `
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        cursor: zoom-out;
+      `;
+
+      const fullImg = document.createElement("img");
+      fullImg.src = fullSrc;
+      fullImg.style.cssText = `
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      `;
+
+      overlay.appendChild(fullImg);
+      document.body.appendChild(overlay);
+
+      overlay.addEventListener("click", () => {
+        document.body.removeChild(overlay);
+      });
+    });
+  });
 });
