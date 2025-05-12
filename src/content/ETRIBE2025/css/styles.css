@@ -56,8 +56,10 @@ body {
 }
 
 .fade-slide {
-  opacity: 0;
+  opacity: 0.01;
   transition: all 0.6s ease-out;
+  min-height: 1rem;
+  will-change: opacity, transform;
 }
 
 .fade-slide.right {
