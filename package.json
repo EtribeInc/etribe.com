@@ -4,9 +4,9 @@
   "description": "XR Talk Web",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0 --port 9000 --config webpack.dev.config.js --inline --open --progress --profile --colors --watch --content-base src/ --mode development",
-    "build": "webpack --config webpack.dev.config.js --mode development",
-    "build.prod": "webpack --config webpack.prod.config.js -p",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --host 0.0.0.0 --port 9000 --config webpack.dev.config.js --inline --open --progress --profile --colors --watch --content-base src/ --mode development",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --config webpack.dev.config.js --mode development",
+    "build.prod": "NODE_OPTIONS=--openssl-legacy-provider webpack --config webpack.prod.config.js -p",
     "build.esnext": "yarn run build:types && yarn run build:js",
     "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",

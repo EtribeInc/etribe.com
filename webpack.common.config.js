@@ -36,6 +36,7 @@ module.exports = {
             { from: ROOT + '/assets/**/*', to: DESTINATION },
             { from: ROOT + '/360/**/*', to: DESTINATION },
             { from: ROOT + '/content/**/*', to: DESTINATION },
+            { from: ROOT + '/images/**/*', to: DESTINATION + '/images' },
             { from: ROOT + '/_redirects', to: DESTINATION },
             { from: ROOT + '/*.html', to: DESTINATION }
         ]),
@@ -88,7 +89,8 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                       name: '[name].[ext]',
-                      outputPath: 'assets/'
+                      outputPath: 'images/',
+                      publicPath: '../images/'
                     }
                   }
                 ]

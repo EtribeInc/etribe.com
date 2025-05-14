@@ -176,10 +176,10 @@ form button:hover {
 }
 
 /* Example background images */
-#page01 .section-header { background-image: url('../images/sectionBG_01.png'); }
-#page02 .section-header { background-image: url('../images/sectionBG_02.png'); }
-#page03 .section-header { background-image: url('../images/sectionBG_03.png'); }
-#page04 .section-header { background-image: url('../images/sectionBG_04.png'); }
+#page01 .section-header { background-image: url('./images/sectionBG_01.png'); }
+#page02 .section-header { background-image: url('./images/sectionBG_02.png'); }
+#page03 .section-header { background-image: url('./images/sectionBG_03.png'); }
+#page04 .section-header { background-image: url('./images/sectionBG_04.png'); }
 
 /* Responsive headers */
 @media (max-width: 768px) {
