@@ -88,7 +88,7 @@ html {
 
 .section-header {
   background-size: cover;
-  background-position: center;
+  background-position:  top center;
   height: 50vh;
   display: flex;
   flex-direction: column;
