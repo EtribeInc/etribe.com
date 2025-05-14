@@ -1,3 +1,6 @@
+/* Import main CSS */
+@import url('../main.css');
+
 /* Reset & base */
 * {
   margin: 0;
