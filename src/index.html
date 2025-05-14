@@ -1,44 +1,281 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <link rel="stylesheet" href="main.css">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-    <meta name="theme-color" content="#1d4926" />
-    <meta name="description" content="Etribe: Experts in interactive 3D apps, blending tech and art. Passionate about AR/VR. Excited to collaborate with you!" />
-<!--    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-        <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
--->
-</head>
-
-<body style="background-image: url('./assets/images/portlandSkyPano_00.png'); background-size: cover;">
- <!-- <model-viewer src="/assets/3d/etribeLogo.glb" ar  
-    camera-controls touch-action="pan-y" alt="etribe logo" autoplay 
-    skybox-image="/assets/3d/TaborTrailBlur_sm.jpg" camera-target="0.75m 0m 0m"
-    ios-src="/assets/3d/000.usdz" xr-environment></model-viewer>
-    </model-viewer>
--->
-    
-    <div style="padding:56.25% 0 0 0;position:static;">
-        <iframe src="https://player.vimeo.com/video/763991649?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
-        frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-        style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-        title="etribe.demo"></iframe>
+<html lang="en">
+  <head>
+    <title>etribe</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="etribe">
+    <meta property="og:site_name" content="etribe">
+    <meta property="og:description" content="Interactive Content Design">
+    <meta property="og:image" content="https://etribe.com/assets/images/webIcon.jpg">
+    <meta property="og:url" content="https://etribe.com/">
+  </head>
+  <body>
+  <nav class="site-nav">
+    <div class="nav-logo">
+      <img src="images/etribe_logo.png" alt="Etribe Logo" />
     </div>
-    <script src="https://player.vimeo.com/api/player.js">
-    </script>
-    <div class="container">
-        <header>
-            <a href="/">
-                <img src="./assets/images/etribe_white.svg">
-            </a>
-            <div id="navigation">
-                <a href="work.html">work</a>
-                <a href="contact.html">contact</a>
-                <a href="about.html">about</a>
+    <ul>
+      <li><a href="#page01">home</a></li>
+      <li><a href="#page02">about</a></li>
+      <li><a href="#page03">service</a></li>
+      <li><a href="#page04">contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      ☰
+    </button>
+  </nav>  <main>
+    <section class="section" id="page01">
+      <div class="section-header">
+        <h1>home</h1>
+        <h2>scout . the . rapid</h2>
+      </div>
+      <div class="section-content fade-slide right">
+        <h2>Drawing New Maps</h2>
+        <br>
+        <p>
+          I’m Spencer Lindsay, founder of eTribe.
+          For a lifetime, I’ve worked at the confluence of art and technology — building games, exhibits, and immersive experiences.
+          eTribe grew from that spirit of exploration. I curate the team for every project from a collective of artists, 
+          programmers, filmmakers, and sound designers whom I trust deeply. Every project is a chance to chart new ground, to create 
+          something meaningful with the right people at the right time.
+        </p>
+        <br>
+        I'm glad you’re here.
+        </p>
+        <br>
+    </div>
+    </section>
+
+    <section class="section" id="page02">
+      <div class="section-header">
+        <h1>about</h1>
+        <h2>who . we . are</h2>
+      </div>
+      <div class="section-content fade-slide left">
+        <h2>what is the tribe?</h2>
+          <br>
+          <h3>Technical Art Directors • Interactive Experience Designers • Creative Technology Consultants • Developers • Audio Engineers </h3>
+          <br>
+        <p>          
+          From volumetric scanning and sensor-driven installations to projection mapping and procedural design, eTribe assembles the 
+          right tools and collaborators for each unique expedition. Our practice is rooted in curiosity, technical depth, and a respect 
+          for how stories unfold through motion, light, and physical spaces to create engaging interactive experiences and immersive worlds that draw people in.
+          <br>
+          <br>
+          For 35 years, I have been known for bridging design and engineering. I bring clarity to complex projects, aligning technical pipelines 
+          with artistic goals from early concept through delivery.
+          <br>
+          <br>
+          Have a potential project for us? <a href="#page04">Please reach out.</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="page03">
+      <div class="section-header">
+        <h1>services</h1>01
+        <h2>what . we . build</h2>
+      </div>
+      <div class="section-content fade-slide right">
+        <h2>Each project is a new expedition, a chance to explore unfamiliar ground with the right crew and the right tools.</h2>
+        <br>
+
+        <div class="project">
+          <hr>
+          <h3>Portland Winter Light Festival - Otter’s Attention</h3>
+          <h4><em>Gaze-Driven Interactive Ecosystem</em></h4>
+          <p>This <a href="https://vimeo.com/995197969" target="_blank">immersive installation</a> invited visitors into a kelp forest under stress. Using gaze tracking and real-time animation, 
+            the piece revealed the role of sea otters as a keystone species - visitors’ attention directed otters toward sea urchins, 
+            triggering their removal and restoring ecological balance.
+            <br>
+            <br>
+            In under two months, I handled all 3D modeling, animation, and visual design, while Jeff Kranski and Josh Faust developed a custom computer 
+            vision pipeline using PyTorch, OpenCV, and Unity. The system interpreted eye direction in real time, transforming collective 
+            gaze into an act of environmental restoration.
+            <br>
+            <br>            
+            This was a fully reactive experience - built to respond, adapt, and grow, just like the ecosystem it modeled.
+            </p>
+            <div class="project-image">
+              <img src="images/gallery/WLF_04sm.png" data-full="images/gallery/WLF_04.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
             </div>
-        </header>
-    </div>
-</body>
+            <div class="project-image">
+              <img src="images/gallery/WLF_01sm.png" data-full="images/gallery/WLF_01.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+            </div>
+            <div class="project-image">
+              <img src="images/gallery/WLF_03sm.png" data-full="images/gallery/WLF_03.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+            </div>
+            </div>
+            <div class="project-image">
+              <img src="images/gallery/WLF_00sm.png" data-full="images/gallery/WLF_00.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+            </div>
 
+        <div class="project">
+          <hr>
+          <h3>Photon Marine</h3>
+          <h4><em>Immersive Storytelling for Vision Pro</em></h4>
+          <p>With Hungry Mantis, I led the development of immersive product stories for Apple Vision Pro. These included interactive 
+          AR product displays and immersive videos that captured the innovation behind next-generation electric marine systems.</p>
+          <div class="project-image">
+            <img src="images/gallery/photon_03sm.png" data-full="images/gallery/photon_03.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/photon_00sm.png" data-full="images/gallery/photon_00.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/photon_02sm.png" data-full="images/gallery/photon_02.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/photon_04sm.png" data-full="images/gallery/photon_04.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/photon_01sm.png" data-full="images/gallery/photon_01.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+        </div>
+
+        <div class="project">
+          <hr>
+          <h3>University of Oregon – Knight Campus</h3>
+          <h4><em>AR and 360º Immersive Tour</em></h4>
+          <p>This project blended augmented reality with 360º filmmaking to tell the story of the Knight Campus in Eugene, Oregon.
+            Filmed on location, it combined live 360º video, hundreds of still frames, and an interactive AR campus map to guide 
+            viewers through the space.</p>
+            <br>
+            <p>I put together a sharp crew: filmmaker and audio designer Grant Lemons, developer Anastasia Devana, art director 
+              Liem Nguyen, AR producer Estella Tse, and sound designer Anna Bertmark. Together, we built a layered, location-aware 
+              experience that merged story and space.</p>
+              <div class="project-image">
+                <img src="images/gallery/UO_03sm.png" data-full="images/gallery/UO_03.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+              </div>
+              <div class="project-image">
+                <img src="images/gallery/UO_00sm.png" data-full="images/gallery/UO_00.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+              </div>
+              <div class="project-image">
+                <img src="images/gallery/UO_02sm.png" data-full="images/gallery/UO_02.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+              </div>
+              <div class="project-image">
+                <img src="images/gallery/UO_01sm.png" data-full="images/gallery/UO_01.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+              </div>
+                </div>
+
+        <div class="project">
+          <hr>
+          <h3>Magic Leap</h3>
+          <h4><em>R&amp;D in Spatial Computing</em></h4>
+          <p>Along with several people I still bring in for projects, I worked inside the early Magic Leap ecosystem as the Technical Art Director for Games and Applications, prototyping augmented reality systems, developing volumetric 
+          video pipelines, and experimenting with <a href="https://youtu.be/kw0-JRa9n94?si=e76bClZZQd8ETzkV" target="_blank">through-device 
+          photography capture</a>. This was frontier work, exploring how spatial stories could be told through light, depth, and motion.</p>
+          <div class="project-image">
+            <img src="images/gallery/ML_00sm.png" data-full="images/gallery/ML_00.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/ML_001sm.png" data-full="images/gallery/ML_001.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/ML_002sm.png" data-full="images/gallery/ML_002.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+        </div>
+
+        <div class="project">
+          <hr>
+          <h3>Monterey Bay Aquarium</h3>
+          <h4><em>Interactive Exhibits in a Living Environment</em></h4>
+          <p>Over several years, together with Paul Reynolds, I designed and built a series of seven unique responsive installations that react to visitor movement and behavior. 
+          <a href="https://vimeo.com/manage/videos/711407154" target="_blank">These exhibits</a> merged sensors, real-time graphics, and narrative design to bring marine science to life.</p>
+          <div class="project-image">
+            <img src="images/gallery/MBAQ_00sm.png" data-full="images/gallery/MBAQ_00.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/MBAQ_01sm.png" data-full="images/gallery/MBAQ_01.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/MBAQ_02sm.png" data-full="images/gallery/MBAQ_02.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+        </div>
+
+        <div class="project">
+          <hr>
+          <h3>Uncorked Studios</h3>
+          <h4><em>360° Helicopter VR Over Mexico City</em></h4>
+          <p>Working with filmmaker Grant Lemons, I shot and created a cinematic VR experience filmed from a helicopter above Mexico City. 
+          The project combined practical cinematography with immersive audio and narrative pacing.</p>
+          <div class="project-image">
+            <img src="images/gallery/Voom_00sm.png" data-full="images/gallery/Voom_00.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/Voom_01sm.png" data-full="images/gallery/Voom_01.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/Voom_02sm.png" data-full="images/gallery/Voom_02.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/Voom_03sm.png" data-full="images/gallery/Voom_03.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+          <div class="project-image">
+            <img src="images/gallery/Voom_04sm.png" data-full="images/gallery/Voom_04.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+          </div>
+
+        </div>
+
+        <div class="project">
+          <hr>
+          <h3>BrandLive – Telly Club</h3>
+          <h4><em>3D Animated Breakout Rooms for Virtual Meetings</em></h4>
+          <p>This project brought together a full creative crew — Myself, Paul Wolff, Liem Nguyen, Anna Bertmark, and Chris Miller — 
+          to produce real-time 3D environments for remote breakout sessions. <a href="https://vimeo.com/928116699/7e028bb3e6" target="_blank">Animated, stylized, and deeply human,</a> Telly Club reimagined 
+          what virtual meetings could feel like.</p>
+        </div>
+        <div class="project-image">
+          <img src="images/gallery/telly_00sm.png" data-full="images/gallery/telly_00.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+        </div>
+        <div class="project-image">
+          <img src="images/gallery/telly_02sm.png" data-full="images/gallery/telly_02.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+        </div>
+        <div class="project-image">
+          <img src="images/gallery/telly_03sm.png" data-full="images/gallery/telly_03.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+        </div>
+        <div class="project-image">
+          <img src="images/gallery/telly_01sm.png" data-full="images/gallery/telly_01.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="page04">
+      <div class="section-header">
+        <h1>contact</h1>
+        <h2>send . your . signal</h2>
+      </div>
+      <div class="section-content fade-slide left">
+        <div>
+          <p>If you’ve got a project in mind, a story to tell, or just want to explore what’s possible, send a flare.
+            I’m always open to new collaborations and conversations, even the strange ones. Use the form below to get in touch. I’ll respond as quickly as I can.
+            <br>
+            <br>
+          </p>
+        </div>
+        <form name="contact" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="contact" />
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+
+          <button type="submit">Send</button>
+        </form>
+        <p id="form-response" style="display: none; color: #a8ff00; font-weight: bold; margin-top: 1rem;">
+          Thank you! Your message has been submitted.
+        </p>
+      </div>
+    </section>
+  </main>
+  <script src="js/script.js"></script>
+</body>
 </html>
