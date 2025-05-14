@@ -1,0 +1,179 @@
+
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100vw;
+    background: radial-gradient(circle, rgb(131,185,27) 0%,rgb(29,72,4) 100%);
+    /* background-image: url("./assets/images/portlandSkyPano_00.png"); */
+    font-size: 16px;
+    font-family: Helvetica Neue;
+    font-style: normal;
+    font-weight: normal;
+    color: rgb(255, 255, 255);
+    
+}
+
+/* Spencer Containers */
+
+.gallery{
+    /* max-width: 800px; */
+    pointer-events: auto;
+    font-size: 12px;
+}
+
+.container_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    background-color: rgb(18, 110, 130);
+    padding: 20px;
+    border-radius: 15px;
+
+  }
+.container_column {
+    display: flex;
+    flex-direction: column;
+  }
+
+.container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    --top-margin: calc(env(safe-area-inset-top, 0em) + 1em);
+    --right-margin: calc(env(safe-area-inset-right, 0em) + 1.5em);
+    --bottom-margin: calc(env(safe-area-inset-bottom, 0em) + 1.5em);
+    --left-margin: calc(env(safe-area-inset-left, 0em) + 1.5em);
+    min-height: calc(100vh - (var(--top-margin) + var(--bottom-margin)));
+    margin: var(--top-margin) var(--right-margin) var(--bottom-margin) var(--left-margin);
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1em;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    pointer-events: none;
+}
+
+a {
+    pointer-events: auto;
+    color: rgb(255, 196, 0); 
+    background-color: transparent; 
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.spacer {
+    flex: 1;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+header img{
+    width:200px;
+}
+
+#navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    pointer-events: auto;
+    justify-self: flex-end;
+}
+
+#navigation a {
+    font-size: 1.3em;
+    font-family: sans-serif;
+    text-decoration: none;
+    text-align: center;
+    padding: 0.4em 1.2em;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    color: black;
+    border: none;
+    border-radius: 1em;
+    transition: background-color 0.3s;
+}
+
+#navigation a:hover {
+    background-color: #ff7300;
+}
+
+.text{
+    max-width: 750px;
+    background-color: rgb(18, 110, 130);
+    pointer-events: auto;
+    padding: 20px;
+    border-radius: 15px;
+}
+.video {
+    flex: 1;
+    width: 100%;
+
+    pointer-events: auto;
+}
+
+.video iframe {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-radius: 15px;
+    
+    aspect-ratio: 16 / 9;
+}
+
+/* Adjust which direction is controlling the size of the video based on the viewport aspect ratio.
+    This is necessary because Vimeo is doing their own internal aspect-ratio handling.
+    The 64/51 value here is dependent on other factors like margins/etc. so may need adjusting
+    if those change.
+ */
+/* @media (min-aspect-ratio: 64 / 51) {
+    .video iframe {
+        height: 100%;
+    }
+}
+
+@media (max-aspect-ratio: 64 / 51) {
+    .video iframe {
+        width: 100%;
+        
+    }
+} */
+
+
+model-viewer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    display: block;
+    font-size: 0;
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    body {
+        font-size: 20px;
+        background: radial-gradient(circle, rgb(27, 119, 185) 0%,rgb(4, 72, 32) 100%);
+    }
+
+    #navigation a {
+        font-size: 1em;
+    }
+}
