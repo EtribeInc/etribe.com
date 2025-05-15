@@ -182,7 +182,7 @@ form button:hover {
 #page01 .section-header { background-image: url('../images/sectionBG_01.png'); }
 #page02 .section-header { background-image: url('../images/sectionBG_02b.png'); }
 #page03 .section-header { background-image: url('../images/sectionBG_03.png'); }
-#page04 .section-header { background-image: url('../images/sectionBG_04.png'); }
+#page04 .section-header { background-image: url('../images/sectionBG_04a.png'); }
 
 /* Responsive headers */
 @media (max-width: 768px) {
