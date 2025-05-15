@@ -98,7 +98,7 @@ model-viewer {
     border-color: #868686; 
     border-style: solid; 
     background-color: rgba(51,51,51,0.7); 
-    background-image: url('/assets/images/arbadge.svg'); 
+    background-image: url('/images/arbadge.svg'); 
     background-size: 70px; 
     background-repeat:no-repeat; 
     background-position: center; 
