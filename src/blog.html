@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>eTribe | Blog</title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-  <!-- NAV (reuse your existing nav here) -->
+  <head>
+    <title>etribe</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="etribe">
+    <meta property="og:site_name" content="etribe">
+    <meta property="og:description" content="Interactive Content Design">
+    <meta property="og:image" content="https://etribe.com/images/webIcon.jpg">
+    <meta property="og:url" content="https://etribe.com/">
+  </head>
+  <body>
   <nav class="site-nav">
     <div class="nav-logo">
-      <a href="index.html"><img src="/images/etribe_logo.png" alt="eTribe Logo"></a>
+      <img src="images/etribe_logo.png" alt="Etribe Logo" />
     </div>
     <ul>
       <li><a href="index.html">home</a></li>
@@ -19,38 +24,41 @@
       <li><a href="index.html#page04">contact</a></li>
       <li><a href="blog.html">blog</a></li>
     </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      ☰
+    </button>
   </nav>
-
-  <!-- HEADER -->
-  <section class="section" id="page05">
-    <div class="section-header">
-      <h1>blog</h1>
-      <h2>experiments . </h2>
-    </div>
-
-    <div class="section-content fade-slide right">
-      <p>Dispatches from the creative frontier. Experiments, thoughts, and lessons from the trail.</p>
-    </div>
-  </section>
-
-  <!-- POST -->
-  <section class="section">
-    <div class="section-content fade-slide left">
-      <div class="project">
-        <h3>Designing for the Vision Pro</h3>
-        <h4><em>April 2025</em></h4>
-        <p>
-          We've been working on immersive storytelling tools for Apple Vision Pro. The goal: help users experience the spirit and purpose behind Photon Marine's tech without reading a word.
-        </p>
-        <div class="project-image">
-          <img src="images/post-visionpro-thumb.jpg" data-full="images/post-visionpro.jpg" class="lightbox-image" alt="Vision Pro immersive content sample" />
-        </div>
-        <p>
-          What surprised us most was how subtle environmental cues — a shifting sky, subtle audio movement — could shape a user's emotional response. More soon.
-        </p>
+  <main>
+    <section class="section" id="page05">
+      <div class="section-header">
+        <h1>blog</h1>
+        <h2>experiements .</h2>
       </div>
-    </div>
-  </section>
+      <div class="section-content fade-slide right">
+        <h2>Thoughts, experiments, wanderings </h2>
+        <br>
+        <p>
+          This is where I share my experiments, ideas, and fragments from the trail. These things don’t always fit neatly into a case study, 
+          but might spark something for you. Some posts are technical. 
+          Some are observational. Others are just small signals sent out to fellow explorers in art, science, design, and storytelling. 
+          Whether you’re an art director, museum curator, startup founder, or student, I hope you find something here that wrinkles your brain.
+        </p>
+        <br>
+        <br>
+<!-- ++++++++++++++ Blog Posts Go Here ++++++++++++++ -->
+        <!--  Post -->
+        <div class="project">
+          <hr>
+          <h3>2025.05.18 Working with Ai as a creative professional</h3>
+          <h4><em>AKA "Making a deal with the devil"</em></h4>
+            <div class="project-image">
+              <img src="images/gallery/WLF_00sm.png" data-full="images/gallery/WLF_00.png" alt="Project description" class="lightbox-image" loading="lazy" width="800" height="150" />
+            </div>
+
+      </div>    
+    </section>
+
+  </main>
   <script src="js/script.js"></script>
 </body>
 </html>
