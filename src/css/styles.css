@@ -83,11 +83,15 @@ html {
 
 /* Sections */
 .section {
-  min-height: 100vh;
   scroll-margin-top: 90px; /* matches nav height + breathing room */
   display: flex;
   flex-direction: column;
 }
+
+.section.full-height {
+  min-height: 100vh;
+}
+
 
 .section-header {
   background-size: cover;
