@@ -129,6 +129,18 @@ html {
   font-size: 1.1rem;
 }
 
+#page05 .section-content {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Blog Page Header */
+
+/* Blog Sections */
+.blog-preview {
+  min-height: unset;
+  display: block;
+}
 /* Contact form styles */
 form {
   display: flex;
