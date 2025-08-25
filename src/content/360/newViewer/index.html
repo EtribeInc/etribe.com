@@ -3,7 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <title>Panorama (Equirect)</title>
-  <style>html,body{margin:0;height:100%;overflow:hidden}</style>
+  <style>
+    :root{ --header-h:64px; }
+    html,body{margin:0;height:100%;background:#262626;color:#f2f2f2;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .brand-header{height:var(--header-h);display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:#1f1f1f;border-bottom:1px solid #333;box-sizing:border-box}
+    .brand-header .logo{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:#fff;font-weight:700;letter-spacing:.02em}
+    .brand-header .logo img{height:28px;width:auto;display:block}
+    .brand-header nav{display:flex;gap:20px}
+    .brand-header nav a{color:#e6e6e6;text-decoration:none;font-weight:600;opacity:.9}
+    .brand-header nav a:hover{opacity:1}
+    main{height:calc(100vh - var(--header-h));}
+    #pano{position:relative;width:100%;height:100%;}
+    #pano canvas{position:absolute;inset:0;display:block}
+  </style>
   <script type="importmap">
   {
     "imports": {
@@ -14,21 +26,32 @@
   </script>
 </head>
 <body>
+<header class="brand-header">
+  <a class="logo" href="/">
+    <img src="../../../images/etribe_logo.png" alt="eTribe" />
+  </a>
+</header>
+<main>
+  <div id="pano"></div>
+</main>
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+const container = document.querySelector('#pano');
 const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(innerWidth, innerHeight);
-document.body.appendChild(renderer.domElement);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(container.clientWidth, container.clientHeight);
+container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, container.clientWidth/container.clientHeight, 0.1, 1000);
 camera.position.set(0,0,0.1);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableZoom = false; // we'll zoom by changing FOV instead of dollying
 controls.enablePan = false;
+controls.rotateSpeed = -1.0; // reverse drag direction
 
 const geometry = new THREE.SphereGeometry(50, 64, 64);
 geometry.scale(-1,1,1); // look inside
@@ -98,7 +121,13 @@ tex.colorSpace = THREE.SRGBColorSpace;
 const material = new THREE.MeshBasicMaterial({map: tex});
 scene.add(new THREE.Mesh(geometry, material));
 
-addEventListener('resize', ()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();});
+const ro = new ResizeObserver(()=>{
+  const w = container.clientWidth, h = container.clientHeight;
+  renderer.setSize(w,h);
+  camera.aspect = w/h;
+  camera.updateProjectionMatrix();
+});
+ro.observe(container);
 renderer.setAnimationLoop(()=>renderer.render(scene,camera));
 </script>
 </body>
