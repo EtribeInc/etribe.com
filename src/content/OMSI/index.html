@@ -17,7 +17,8 @@ html, body{
 body {
   font-family: Verdana, Arial, Helvetica, Sans-Serif;
   font-size: 8pt;
-  margin: 0px;  
+  margin: 0px;
+  background-color: black;
 }
 
 h1 {
@@ -54,9 +55,9 @@ body, td {
 #mypanoviewer {
 	height:100%;
   width: 100%;
-  -webkit-box-shadow: 5px 5px 10px rgb(180,180,180);
+  /* -webkit-box-shadow: 5px 5px 10px rgb(180,180,180);
   -moz-box-shadow: 5px 5px 10px rgb(180,180,180);
-  box-shadow: 5px 5px 10px rgb(180,180,180);
+  box-shadow: 5px 5px 10px rgb(180,180,180); */
 }
 
 #notice,
@@ -140,7 +141,6 @@ viewer.embed("mypanoviewer");
       <tr>
         <td id="middletd">
           <div id="mypanoviewer"></div>
-          <div id="notice">created with PTGui <a href="https://www.ptgui.com/" target="_blank">stitching software</a></div>
         </td>
       </tr>
       <tr>
