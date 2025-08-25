@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Panorama (Equirect)</title>
+  <style>html,body{margin:0;height:100%;overflow:hidden}</style>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
+camera.position.set(0,0,0.1);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableZoom = false; // we'll zoom by changing FOV instead of dollying
+controls.enablePan = false;
+
+const geometry = new THREE.SphereGeometry(50, 64, 64);
+geometry.scale(-1,1,1); // look inside
+
+// ----- FOV zoom (wheel + pinch) -----
+const MIN_FOV = 30;
+const MAX_FOV = 100;
+function setFov(f){
+  camera.fov = THREE.MathUtils.clamp(f, MIN_FOV, MAX_FOV);
+  camera.updateProjectionMatrix();
+}
+
+// Desktop: mouse wheel to adjust FOV
+renderer.domElement.addEventListener('wheel', (e)=>{
+  e.preventDefault();
+  // deltaY > 0 => zoom out (increase FOV); deltaY < 0 => zoom in (decrease FOV)
+  const delta = e.deltaY * 0.02; // adjust sensitivity to taste
+  setFov(camera.fov + delta);
+}, { passive:false });
+
+// Mobile: pinch to adjust FOV via Pointer Events
+renderer.domElement.style.touchAction = 'none'; // allow pinch without page zoom
+const pointers = new Map();
+let pinchStartDist = null;
+let pinchStartFov = camera.fov;
+
+function pointerXY(e){ return { x: e.clientX, y: e.clientY }; }
+function twoPointers(){ return Array.from(pointers.values()).slice(0,2); }
+function dist(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.hypot(dx,dy); }
+
+function onPointerDown(e){
+  pointers.set(e.pointerId, pointerXY(e));
+  if (pointers.size === 2){
+    const [p1,p2] = twoPointers();
+    pinchStartDist = dist(p1,p2);
+    pinchStartFov = camera.fov;
+  }
+}
+function onPointerMove(e){
+  if (!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId, pointerXY(e));
+  if (pointers.size === 2 && pinchStartDist){
+    const [p1,p2] = twoPointers();
+    const d = dist(p1,p2);
+    const scale = d / pinchStartDist; // >1 fingers move apart
+    // Decrease FOV when scale > 1 (zoom in), increase when < 1 (zoom out)
+    const newFov = pinchStartFov / scale;
+    setFov(newFov);
+  }
+}
+function onPointerUp(e){
+  pointers.delete(e.pointerId);
+  if (pointers.size < 2){
+    pinchStartDist = null;
+  }
+}
+
+renderer.domElement.addEventListener('pointerdown', onPointerDown, {passive:true});
+renderer.domElement.addEventListener('pointermove', onPointerMove, {passive:true});
+renderer.domElement.addEventListener('pointerup', onPointerUp, {passive:true});
+renderer.domElement.addEventListener('pointercancel', onPointerUp, {passive:true});
+renderer.domElement.addEventListener('pointerleave', onPointerUp, {passive:true});
+
+const tex = await new THREE.TextureLoader().loadAsync('test_equi_01 Panorama.jpg'); // 2:1 image
+tex.colorSpace = THREE.SRGBColorSpace;
+
+const material = new THREE.MeshBasicMaterial({map: tex});
+scene.add(new THREE.Mesh(geometry, material));
+
+addEventListener('resize', ()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();});
+renderer.setAnimationLoop(()=>renderer.render(scene,camera));
+</script>
+</body>
+</html>
