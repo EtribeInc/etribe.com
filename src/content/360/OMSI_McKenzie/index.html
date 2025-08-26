@@ -115,7 +115,7 @@ renderer.domElement.addEventListener('pointerup', onPointerUp, {passive:true});
 renderer.domElement.addEventListener('pointercancel', onPointerUp, {passive:true});
 renderer.domElement.addEventListener('pointerleave', onPointerUp, {passive:true});
 
-const tex = await new THREE.TextureLoader().loadAsync('test_equi_01 Panorama.jpg'); // 2:1 image
+const tex = await new THREE.TextureLoader().loadAsync('test_equi_02.png'); // 2:1 image
 tex.colorSpace = THREE.SRGBColorSpace;
 
 const material = new THREE.MeshBasicMaterial({map: tex});
