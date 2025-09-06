@@ -201,6 +201,7 @@ form button:hover {
 #page04 .section-header { background-image: url('../images/sectionBG_04a.png'); }
 #page05 .section-header { background-image: url('../images/sectionBG_05.png'); }
 #page06 .section-header { background-image: url('../images/blog/blogPostHeader_b.png'); }
+#page07 .section-header { background-image: url('../../images/filler.png'); }
 
 /* Responsive headers */
 @media (max-width: 768px) {
