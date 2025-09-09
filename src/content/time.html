@@ -34,6 +34,15 @@
     .number {
       color: #FF0909; /* bright red for numbers */
       font-weight: bold;
+      font-family: monospace;
+      display: inline-block;
+      width: 5ch;
+      text-align: right;
+    }
+    
+    .timer-block {
+      text-align: left;
+      display: inline-block;
     }
     
     header {
@@ -65,10 +74,10 @@
   </header>
 
   <h1>Time Since Inauguration</h1>
-  <div id="counter">Loading...</div>
+  <div id="counter" class="timer-block">Loading...</div>
   <div> <br><br><br> </div>
   <h1>Time Until The End</h1>
-  <div id="countdown">Loading...</div>
+  <div id="countdown" class="timer-block">Loading...</div>
   
   <footer>
     <a href="http://5calls.org" target="_blank">
@@ -77,6 +86,10 @@
   </footer>
 
   <script>
+    function pad(num) {
+      return num.toString().padStart(4, '0');
+    }
+
     // President Trump's inauguration: January 20, 2025 at 12:00 PM EST (17:00:00Z)
     const inaugurationDate = new Date('2025-01-20T17:00:00Z');
 
@@ -93,10 +106,10 @@
       const seconds = Math.floor((timeElapsed / 1000) % 60);
 
       document.getElementById('counter').innerHTML =
-        `<span class="number">${days}</span> days, 
-         <span class="number">${hours}</span> hours, 
-         <span class="number">${minutes}</span> minutes, 
-         <span class="number">${seconds}</span> seconds`;
+        `<div><span class="number">${pad(days)}</span> Days</div>
+         <div><span class="number">${pad(hours)}</span> Hours</div>
+         <div><span class="number">${pad(minutes)}</span> Minutes</div>
+         <div><span class="number">${pad(seconds)}</span> Seconds</div>`;
     }
 
     function updateCountdown() {
@@ -115,10 +128,10 @@
       const seconds = Math.floor((timeRemaining / 1000) % 60);
 
       document.getElementById('countdown').innerHTML =
-        `<span class="number">${days}</span> days, 
-         <span class="number">${hours}</span> hours, 
-         <span class="number">${minutes}</span> minutes, 
-         <span class="number">${seconds}</span> seconds`;
+        `<div><span class="number">${pad(days)}</span> Days</div>
+         <div><span class="number">${pad(hours)}</span> Hours</div>
+         <div><span class="number">${pad(minutes)}</span> Minutes</div>
+         <div><span class="number">${pad(seconds)}</span> Seconds</div>`;
     }
 
     // Update both timers every second
