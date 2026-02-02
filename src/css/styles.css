@@ -196,14 +196,14 @@ form button:hover {
 
 /*Section background images */
 #page01 .section-header { background-image: url('../images/sectionBG_01.png'); }
-#page02 .section-header { background-image: url('../images/section_backgrounds/sectionBG_02.png'); }
+#page02 .section-header { background-image: url('../images/sectionBG_02e.png'); }
 #page03 .section-header { background-image: url('../images/sectionBG_03b.png'); }
 #page04 .section-header { background-image: url('../images/sectionBG_04a.png'); }
 #page05 .section-header { background-image: url('../images/sectionBG_05.png'); }
 #page06 .section-header { background-image: url('../images/blog/blogPostHeader_b.png'); }
 #page07 .section-header { background-image: url('../../images/filler.png'); }
 #page08 .section-header { background-image: url('../../images/PDXR.jpg'); }
-
+#page09 .section-header { background-image: url('../images/sectionBG_09.jpg'); }
 /* Responsive headers */
 @media (max-width: 768px) {
   .section-header h1 {
