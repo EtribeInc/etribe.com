@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Perplexity Computer Attribution — SEO Meta Tags -->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Sea Lion Track Visualizer</title>
+
+<!-- Google Fonts: Satoshi-like clean sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+<style>
+  /* ===================================================================
+     GLOBAL RESET & LAYOUT
+     =================================================================== */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --color-bg: #1a2e1a;
+    --color-surface: rgba(255, 255, 255, 0.07);
+    --color-surface-hover: rgba(255, 255, 255, 0.12);
+    --color-border: rgba(255, 255, 255, 0.12);
+    --color-text: #e8ece8;
+    --color-text-muted: #8fa08f;
+    --color-accent: #6fd68a;
+    --color-error: #ff6b6b;
+    --panel-blur: 14px;
+    --panel-radius: 10px;
+    --transition-ui: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: var(--font-body);
+    color: var(--color-text);
+    /* Warm green circular gradient background */
+    background: radial-gradient(ellipse at 50% 50%, #3a6b3a 0%, #1a3a1a 55%, #0d1f0d 100%);
+  }
+
+  /* ===================================================================
+     CANVAS — FULL VIEWPORT
+     =================================================================== */
+  #canvas-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+  #canvas-container canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    /* Allow OrbitControls to handle all touch gestures (pinch-zoom, pan, rotate).
+       Without this, the browser intercepts pinch as page-zoom on iOS Safari. */
+    touch-action: none;
+  }
+
+  /* ===================================================================
+     CONTROLS PANEL — TOP LEFT
+     =================================================================== */
+  #controls {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+    background: var(--color-surface);
+    backdrop-filter: blur(var(--panel-blur));
+    -webkit-backdrop-filter: blur(var(--panel-blur));
+    border: 1px solid var(--color-border);
+    border-radius: var(--panel-radius);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 320px;
+    min-width: 260px;
+    pointer-events: auto;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  #controls h1 {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 2px;
+    color: var(--color-accent);
+  }
+
+  #controls label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  /* File input styling */
+  .file-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .file-row input[type="file"] {
+    flex: 1;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-text);
+    background: transparent;
+  }
+  .file-row input[type="file"]::file-selector-button {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background var(--transition-ui);
+  }
+  .file-row input[type="file"]::file-selector-button:hover {
+    background: var(--color-surface-hover);
+  }
+
+  /* Buttons */
+  .btn {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background var(--transition-ui), border-color var(--transition-ui);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:hover { background: var(--color-surface-hover); }
+  .btn-primary {
+    background: rgba(111, 214, 138, 0.15);
+    border-color: rgba(111, 214, 138, 0.3);
+    color: var(--color-accent);
+  }
+  .btn-primary:hover {
+    background: rgba(111, 214, 138, 0.25);
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* Select / dropdown */
+  .select-wrap select {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 13px;
+    padding: 6px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: rgba(0,0,0,0.25);
+    color: var(--color-text);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* Error message */
+  #error-msg {
+    font-size: 12px;
+    color: var(--color-error);
+    display: none;
+    padding: 6px 10px;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 107, 107, 0.2);
+    line-height: 1.4;
+  }
+
+  /* Status message */
+  #status-msg {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    display: none;
+    line-height: 1.4;
+  }
+
+  /* ===================================================================
+     TIME SLIDER PANEL — BOTTOM
+     =================================================================== */
+  #time-panel {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 10;
+    background: var(--color-surface);
+    backdrop-filter: blur(var(--panel-blur));
+    -webkit-backdrop-filter: blur(var(--panel-blur));
+    border: 1px solid var(--color-border);
+    border-radius: var(--panel-radius);
+    padding: 12px 16px;
+    display: none; /* hidden until data loaded */
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: auto;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .time-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #time-label {
+    font-size: 13px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--color-text);
+    min-width: 170px;
+    white-space: nowrap;
+  }
+
+  #time-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.12);
+    outline: none;
+    cursor: pointer;
+  }
+  #time-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid rgba(0,0,0,0.3);
+    cursor: grab;
+  }
+  #time-slider::-moz-range-thumb {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid rgba(0,0,0,0.3);
+    cursor: grab;
+  }
+
+  .speed-label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  #speed-slider {
+    width: 80px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.1);
+    outline: none;
+    cursor: pointer;
+  }
+  #speed-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--color-text-muted);
+    border: 1px solid rgba(0,0,0,0.3);
+    cursor: grab;
+  }
+  #speed-slider::-moz-range-thumb {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--color-text-muted);
+    border: 1px solid rgba(0,0,0,0.3);
+    cursor: grab;
+  }
+
+  /* ===================================================================
+     FOOTER
+     =================================================================== */
+  #attribution {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 5;
+    font-size: 11px;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+  }
+  #attribution a {
+    color: inherit;
+    text-decoration: none;
+  }
+  #attribution a:hover {
+    text-decoration: underline;
+  }
+
+  /* ===================================================================
+     RESPONSIVE — SMALLER SCREENS / IPAD
+     =================================================================== */
+  @media (max-width: 600px) {
+    #controls {
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      max-width: none;
+      min-width: 0;
+      padding: 12px;
+    }
+    #time-panel {
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      padding: 10px 12px;
+    }
+    #time-label { min-width: 140px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 3D Canvas Container -->
+<div id="canvas-container"></div>
+
+<!-- Controls Panel -->
+<div id="controls">
+  <h1>etribe Sea Lion Tracker</h1>
+
+  <label>Load your CSV file (id, date, lon, lat)</label>
+  <div class="file-row">
+    <input type="file" id="file-input" accept=".csv,.txt">
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" id="btn-load">Load &amp; Visualize</button>
+    <button class="btn" id="btn-reset">Reset Camera</button>
+  </div>
+
+  <div class="select-wrap">
+    <label>Filter by ID</label>
+    <select id="id-filter">
+      <option value="__all__">All tracks</option>
+    </select>
+  </div>
+
+  <div id="error-msg"></div>
+  <div id="status-msg"></div>
+</div>
+
+<!-- Time Slider Panel (shown after data load) -->
+<div id="time-panel">
+  <div class="time-row">
+    <button class="btn" id="btn-play" style="min-width:70px;">&#9654; Play</button>
+    <input type="range" id="time-slider" min="0" max="1000" value="1000" step="1">
+    <span id="time-label">—</span>
+  </div>
+  <div class="time-row" style="justify-content:flex-end;">
+    <span class="speed-label">Speed:</span>
+    <input type="range" id="speed-slider" min="1" max="10" value="3" step="0.5">
+    <span class="speed-label" id="speed-value">3x</span>
+  </div>
+</div>
+
+<!-- Attribution -->
+<footer id="attribution">
+  <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+</footer>
+
+<!-- ================================================================
+     THREE.JS & PAPA PARSE — CDN
+     ================================================================ -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/"
+  }
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* =====================================================================
+   CONFIGURATION
+   ===================================================================== */
+
+// Scale factor: after centering lon/lat around the mean, multiply by this
+// to get a nice scene size. Adjust as needed for different datasets.
+const COORD_SCALE = 800;
+
+// Point marker size as a fraction of data extent.
+// After building tracks, the actual radius = extent * POINT_SIZE_FRACTION.
+const POINT_SIZE_FRACTION = 0.0008;
+
+// Line width is always 1px in Three.js LineBasicMaterial on most GPUs.
+// We use LineBasicMaterial for maximum compatibility (iPad Safari).
+
+// Distinct color palette for tracks (up to 20, then recycle)
+const TRACK_COLORS = [
+  '#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#38d9a9',
+  '#4dabf7', '#748ffc', '#da77f2', '#f783ac', '#e8590c',
+  '#a9e34b', '#3bc9db', '#7950f2', '#e64980', '#fd7e14',
+  '#20c997', '#5c7cfa', '#be4bdb', '#f06595', '#fab005'
+];
+
+/* =====================================================================
+   COASTLINE DATA
+   
+   Simplified Natural Earth 50m coastline for the California coast,
+   Channel Islands, and surrounding area. Each sub-array is a
+   polyline of [lon, lat] pairs. Public domain (Natural Earth).
+   This covers roughly 32°N–43°N, 118°W–125°W.
+   ===================================================================== */
+const COASTLINE_SEGMENTS = [[[-120.353,34.061],[-120.368,34.073],[-120.442,34.033],[-120.307,34.025],[-120.353,34.061]],[[-119.525,33.282],[-119.575,33.278],[-119.544,33.225],[-119.438,33.217],[-119.479,33.275],[-119.525,33.282]],[[-118.507,32.96],[-118.557,33.033],[-118.59,33.011],[-118.529,32.936],[-118.473,32.839],[-118.409,32.819],[-118.35,32.828],[-118.507,32.96]],[[-120.252,34.014],[-120.167,33.918],[-120.114,33.905],[-120.044,33.919],[-119.984,33.973],[-120.072,34.027],[-120.252,34.014]],[[-119.679,34.028],[-119.882,34.08],[-119.918,34.068],[-119.892,34.032],[-119.885,33.995],[-119.81,33.968],[-119.562,34.007],[-119.549,34.028],[-119.569,34.053],[-119.679,34.028]],[[-118.469,33.357],[-118.446,33.317],[-118.297,33.312],[-118.348,33.386],[-118.392,33.415],[-118.555,33.477],[-118.569,33.464],[-118.563,33.437],[-118.507,33.427],[-118.469,33.357]],[[-124.499,42.937],[-124.54,42.813],[-124.444,42.67],[-124.406,42.584],[-124.421,42.381],[-124.41,42.304],[-124.355,42.123],[-124.212,41.985],[-124.209,41.889],[-124.245,41.788],[-124.163,41.719],[-124.118,41.622],[-124.072,41.46],[-124.069,41.384],[-124.14,41.156],[-124.133,40.97],[-124.219,40.791],[-124.223,40.775],[-124.19,40.772],[-124.22,40.696],[-124.251,40.704],[-124.242,40.728],[-124.254,40.74],[-124.284,40.711],[-124.372,40.491],[-124.357,40.371],[-124.324,40.252],[-124.108,40.095],[-123.884,39.861],[-123.833,39.775],[-123.783,39.619],[-123.778,39.515],[-123.82,39.368],[-123.72,39.111],[-123.701,38.907],[-123.425,38.676],[-123.29,38.536],[-123.121,38.449],[-123.046,38.305],[-122.987,38.277],[-122.908,38.197],[-122.877,38.123],[-122.978,38.227],[-122.968,38.097],[-123.001,38.019],[-122.999,37.989],[-122.932,38.055],[-122.76,37.946],[-122.681,37.902],[-122.584,37.874],[-122.521,37.826],[-122.467,37.838],[-122.495,37.954],[-122.484,38.109],[-122.393,38.145],[-122.337,38.136],[-122.208,38.073],[-122.154,38.066],[-122.031,38.124],[-121.993,38.12],[-121.934,38.087],[-121.881,38.075],[-121.626,38.084],[-121.525,38.056],[-121.638,38.061],[-121.717,38.034],[-122.087,38.05],[-122.217,38.041],[-122.314,38.007],[-122.385,37.961],[-122.365,37.921],[-122.333,37.897],[-122.296,37.79],[-122.222,37.732],[-122.158,37.626],[-122.124,37.544],[-122.071,37.478],[-122.166,37.502],[-122.229,37.564],[-122.298,37.592],[-122.37,37.656],[-122.39,37.741],[-122.384,37.789],[-122.446,37.798],[-122.514,37.772],[-122.499,37.543],[-122.408,37.373],[-122.395,37.208],[-122.164,36.991],[-121.881,36.939],[-121.807,36.851],[-121.79,36.732],[-121.835,36.657],[-121.919,36.572],[-121.91,36.433],[-121.877,36.331],[-121.664,36.154],[-121.465,35.927],[-121.434,35.864],[-121.344,35.792],[-121.284,35.676],[-121.138,35.607],[-121.023,35.481],[-120.9,35.425],[-120.86,35.365],[-120.885,35.275],[-120.857,35.21],[-120.707,35.158],[-120.659,35.122],[-120.634,35.076],[-120.663,34.949],[-120.625,34.812],[-120.638,34.749],[-120.627,34.669],[-120.645,34.58],[-120.56,34.544],[-120.481,34.472],[-120.396,34.46],[-120.17,34.476],[-120.053,34.469],[-119.853,34.412],[-119.713,34.4],[-119.606,34.418],[-119.414,34.339],[-119.268,34.257],[-119.236,34.164],[-119.144,34.112],[-118.832,34.024],[-118.599,34.035],[-118.506,34.017],[-118.393,33.858],[-118.41,33.744],[-118.294,33.712],[-118.264,33.759],[-118.162,33.751],[-118.081,33.722],[-117.952,33.62],[-117.789,33.538],[-117.467,33.296],[-117.319,33.1],[-117.263,32.939],[-117.256,32.873],[-117.271,32.806],[-117.243,32.664],[-117.184,32.688],[-117.137,32.649],[-117.13,32.54],[-117.063,32.344],[-117.035,32.305]]];
+
+/* =====================================================================
+   GLOBALS
+   ===================================================================== */
+let scene, camera, renderer, controls;
+let coastlineGroup = null; // THREE.Group holding coastline line objects
+let trackGroups = {};       // { id: { points: [...], lineObj, pointObjs, color } }
+let allSamples = [];        // flat array of all parsed samples
+let globalMinTime = 0;
+let globalMaxTime = 1;
+let currentTime = Infinity; // show everything by default
+let isPlaying = false;
+let playbackSpeed = 3;      // real-time multiplier (hours per second of wall clock)
+let lastFrameTime = 0;
+let initialCameraPos = new THREE.Vector3();
+let initialTarget = new THREE.Vector3();
+let raycaster = new THREE.Raycaster();
+let mouse = new THREE.Vector2();
+
+/* =====================================================================
+   THREE.JS SCENE SETUP
+   ===================================================================== */
+function initScene() {
+  scene = new THREE.Scene();
+  // Transparent background so the CSS radial gradient shows through
+  scene.background = null;
+
+  // Camera: perspective, looking down at the XZ ground plane
+  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100000);
+  camera.position.set(0, 80, 60);
+  camera.lookAt(0, 0, 0);
+
+  // Renderer with alpha for transparent background
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0); // fully transparent
+  document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+  // OrbitControls for orbit, pan, zoom (mouse + touch)
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.minDistance = 2;
+  controls.maxDistance = 50000; // large enough for FOV-computed distances
+  controls.target.set(0, 0, 0);
+
+  // Explicitly configure touch gestures for iPad Safari:
+  // ONE finger = rotate, TWO fingers = dolly (pinch zoom) + pan
+  controls.touches = {
+    ONE: THREE.TOUCH.ROTATE,
+    TWO: THREE.TOUCH.DOLLY_PAN
+  };
+
+  // Store initial camera state for reset
+  initialCameraPos.copy(camera.position);
+  initialTarget.copy(controls.target);
+
+  // Ambient light so materials are visible
+  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  dirLight.position.set(50, 200, 50); // light from above the ground plane
+  scene.add(dirLight);
+
+  // Handle resize
+  window.addEventListener('resize', onResize);
+
+  // Start render loop
+  requestAnimationFrame(animate);
+}
+
+function onResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function animate(time) {
+  requestAnimationFrame(animate);
+  controls.update();
+
+  // Playback: advance currentTime if playing
+  if (isPlaying && allSamples.length > 0) {
+    const now = performance.now();
+    if (lastFrameTime > 0) {
+      const dtSec = (now - lastFrameTime) / 1000;
+      // playbackSpeed is in "hours of data per second of wall clock"
+      const dtMs = dtSec * playbackSpeed * 3600 * 1000;
+      currentTime += dtMs;
+      if (currentTime > globalMaxTime) {
+        currentTime = globalMinTime; // loop
+      }
+      updateTimeSliderUI();
+      updateVisibility();
+    }
+    lastFrameTime = now;
+  }
+
+  renderer.render(scene, camera);
+}
+
+/* =====================================================================
+   LON/LAT → HORIZONTAL PLANE MAPPING (y = 0)
+   
+   We use a simple equirectangular approximation mapped onto the
+   XZ ground plane so the data appears flat/horizontal when viewed
+   from above:
+     x = (lon - meanLon) * cos(meanLat) * scale   (East–West)
+     z = -(lat - meanLat) * scale                  (North–South, negated so
+                                                     north points toward -Z,
+                                                     matching a top-down map view)
+     y = 0                                          (up axis, always zero)
+   
+   In Three.js the Y axis is "up", so placing data in the XZ plane
+   makes it lie flat like a map on a table. The camera looks down
+   from above.
+   
+   The COORD_SCALE factor converts degree offsets into scene units
+   so the data cloud fills a reasonable viewport.
+   ===================================================================== */
+function projectToPlane(lon, lat, meanLon, meanLat) {
+  const cosLat = Math.cos(meanLat * Math.PI / 180);
+  const x = (lon - meanLon) * cosLat * COORD_SCALE;
+  const y = 0;  // up axis — always zero for surface tracks
+  const z = -(lat - meanLat) * COORD_SCALE; // negate so north = -Z (map convention)
+  return { x, y, z };
+}
+
+/* =====================================================================
+   CSV PARSING
+   
+   Uses Papa Parse to handle CSV parsing including edge cases like
+   quoted fields and different line endings. We look for columns
+   named id, date, lon, lat (case-insensitive). If any are missing,
+   we show a user-friendly error.
+   ===================================================================== */
+function parseCSV(text) {
+  return new Promise((resolve, reject) => {
+    Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true,
+      dynamicTyping: false,
+      complete: (results) => {
+        if (results.errors.length > 0 && results.data.length === 0) {
+          reject(new Error('CSV parsing failed: ' + results.errors[0].message));
+          return;
+        }
+        // Find columns case-insensitively
+        const fields = results.meta.fields || [];
+        const fieldMap = {};
+        fields.forEach(f => { fieldMap[f.toLowerCase().trim()] = f; });
+
+        const idCol = fieldMap['id'];
+        const dateCol = fieldMap['date'];
+        const lonCol = fieldMap['lon'];
+        const latCol = fieldMap['lat'];
+
+        const missing = [];
+        if (!idCol) missing.push('id');
+        if (!dateCol) missing.push('date');
+        if (!lonCol) missing.push('lon');
+        if (!latCol) missing.push('lat');
+
+        if (missing.length > 0) {
+          reject(new Error('Missing required column(s): ' + missing.join(', ') +
+            '. Found: ' + fields.join(', ')));
+          return;
+        }
+
+        const samples = [];
+        for (const row of results.data) {
+          const id = String(row[idCol]).trim();
+          const dateStr = String(row[dateCol]).trim();
+          const lon = parseFloat(row[lonCol]);
+          const lat = parseFloat(row[latCol]);
+
+          if (!id || isNaN(lon) || isNaN(lat)) continue;
+
+          const timestamp = new Date(dateStr).getTime();
+          if (isNaN(timestamp)) continue;
+
+          samples.push({ id, timestamp, lon, lat, dateStr });
+        }
+
+        if (samples.length === 0) {
+          reject(new Error('No valid data rows found. Check that lon/lat are numeric and date is a valid timestamp.'));
+          return;
+        }
+
+        resolve(samples);
+      },
+      error: (err) => {
+        reject(new Error('CSV parsing error: ' + err.message));
+      }
+    });
+  });
+}
+
+/* =====================================================================
+   TRACK CREATION
+   
+   For each unique animal ID:
+   1. Sort samples by date (ascending).
+   2. Compute a line strip geometry connecting all points in time order.
+   3. Create a small sphere (InstancedMesh for performance) at each
+      sample position.
+   4. Assign a distinct color from the palette.
+   
+   All geometry lives in a THREE.Group per track so we can show/hide
+   individual tracks via the filter dropdown.
+   ===================================================================== */
+function buildTracks(samples) {
+  // Clear existing tracks
+  for (const id of Object.keys(trackGroups)) {
+    scene.remove(trackGroups[id].group);
+    // Dispose geometry/materials
+    trackGroups[id].group.traverse(child => {
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) {
+        if (Array.isArray(child.material)) child.material.forEach(m => m.dispose());
+        else child.material.dispose();
+      }
+    });
+  }
+  trackGroups = {};
+
+  // Compute centroid for projection
+  let sumLon = 0, sumLat = 0;
+  for (const s of samples) { sumLon += s.lon; sumLat += s.lat; }
+  const meanLon = sumLon / samples.length;
+  const meanLat = sumLat / samples.length;
+
+  // Project all samples and store 3D positions
+  for (const s of samples) {
+    const p = projectToPlane(s.lon, s.lat, meanLon, meanLat);
+    s.px = p.x;
+    s.py = p.y;
+    s.pz = p.z;
+  }
+
+  // Group by ID
+  const byId = {};
+  for (const s of samples) {
+    if (!byId[s.id]) byId[s.id] = [];
+    byId[s.id].push(s);
+  }
+
+  // Sort each group by timestamp
+  for (const id of Object.keys(byId)) {
+    byId[id].sort((a, b) => a.timestamp - b.timestamp);
+  }
+
+  // Compute global time range
+  globalMinTime = Infinity;
+  globalMaxTime = -Infinity;
+  for (const s of samples) {
+    if (s.timestamp < globalMinTime) globalMinTime = s.timestamp;
+    if (s.timestamp > globalMaxTime) globalMaxTime = s.timestamp;
+  }
+  currentTime = globalMaxTime;
+
+  // Compute data extent for scaling point size
+  // (use px and pz since data now lives on the XZ plane)
+  let minPx = Infinity, maxPx = -Infinity;
+  let minPz = Infinity, maxPz = -Infinity;
+  for (const s of samples) {
+    if (s.px < minPx) minPx = s.px;
+    if (s.px > maxPx) maxPx = s.px;
+    if (s.pz < minPz) minPz = s.pz;
+    if (s.pz > maxPz) maxPz = s.pz;
+  }
+  const dataExtent = Math.max(maxPx - minPx, maxPz - minPz, 1);
+  const pointRadius = dataExtent * POINT_SIZE_FRACTION;
+
+  // Build 3D objects for each track
+  const ids = Object.keys(byId);
+  const sphereGeom = new THREE.SphereGeometry(pointRadius, 8, 6);
+
+  for (let i = 0; i < ids.length; i++) {
+    const id = ids[i];
+    const pts = byId[id];
+    const colorHex = TRACK_COLORS[i % TRACK_COLORS.length];
+    const color = new THREE.Color(colorHex);
+
+    const group = new THREE.Group();
+    group.name = 'track_' + id;
+
+    // --- Line strip ---
+    // We create the full line geometry but will dynamically update
+    // drawRange to show only segments up to the current time.
+    const linePositions = new Float32Array(pts.length * 3);
+    for (let j = 0; j < pts.length; j++) {
+      linePositions[j * 3]     = pts[j].px;
+      linePositions[j * 3 + 1] = pts[j].py;
+      linePositions[j * 3 + 2] = pts[j].pz;
+    }
+    const lineGeom = new THREE.BufferGeometry();
+    lineGeom.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+    const lineMat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.7 });
+    const lineObj = new THREE.Line(lineGeom, lineMat);
+    group.add(lineObj);
+
+    // --- Point markers (InstancedMesh for performance) ---
+    const pointMat = new THREE.MeshLambertMaterial({ color, transparent: true, opacity: 0.9 });
+    const instMesh = new THREE.InstancedMesh(sphereGeom, pointMat, pts.length);
+    const dummy = new THREE.Object3D();
+    for (let j = 0; j < pts.length; j++) {
+      dummy.position.set(pts[j].px, pts[j].py, pts[j].pz);
+      dummy.updateMatrix();
+      instMesh.setMatrixAt(j, dummy.matrix);
+    }
+    instMesh.instanceMatrix.needsUpdate = true;
+    // Store track id on the mesh for raycasting identification
+    instMesh.userData.trackId = id;
+    group.add(instMesh);
+
+    scene.add(group);
+
+    trackGroups[id] = {
+      group,
+      points: pts,
+      lineObj,
+      instMesh,
+      color: colorHex
+    };
+  }
+
+  // Build coastline overlay using the same projection
+  buildCoastline(meanLon, meanLat);
+
+  // Auto-frame the camera to fit all data
+  fitCameraToData(samples);
+
+  // Populate filter dropdown
+  populateFilter(ids);
+}
+
+/* =====================================================================
+   COASTLINE RENDERING
+   
+   Projects the embedded coastline lon/lat data through the same
+   equirectangular projection used for the tracking data, so the
+   coastline aligns exactly with the animal tracks. Draws white
+   semi-transparent lines on the XZ ground plane (y = 0).
+   ===================================================================== */
+function buildCoastline(meanLon, meanLat) {
+  // Remove previous coastline if reloading data
+  if (coastlineGroup) {
+    coastlineGroup.traverse(child => {
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) child.material.dispose();
+    });
+    scene.remove(coastlineGroup);
+  }
+
+  coastlineGroup = new THREE.Group();
+  coastlineGroup.name = 'coastline';
+
+  const coastMat = new THREE.LineBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.35
+  });
+
+  const cosLat = Math.cos(meanLat * Math.PI / 180);
+
+  for (const segment of COASTLINE_SEGMENTS) {
+    if (segment.length < 2) continue;
+
+    const positions = new Float32Array(segment.length * 3);
+    for (let i = 0; i < segment.length; i++) {
+      const lon = segment[i][0];
+      const lat = segment[i][1];
+      // Same projection as projectToPlane()
+      positions[i * 3]     = (lon - meanLon) * cosLat * COORD_SCALE;  // x
+      positions[i * 3 + 1] = 0;                                       // y (up)
+      positions[i * 3 + 2] = -(lat - meanLat) * COORD_SCALE;          // z
+    }
+
+    const geom = new THREE.BufferGeometry();
+    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const line = new THREE.Line(geom, coastMat);
+    coastlineGroup.add(line);
+  }
+
+  scene.add(coastlineGroup);
+}
+
+/* =====================================================================
+   CAMERA FRAMING
+   
+   Position the camera above and slightly angled over the data centroid.
+   Data lives on the XZ ground plane (y = 0). The camera looks down
+   from above. Distance is computed from the FOV so the entire dataset
+   fits within the viewport with a 15% margin.
+   ===================================================================== */
+function fitCameraToData(samples) {
+  let minX = Infinity, maxX = -Infinity;
+  let minZ = Infinity, maxZ = -Infinity;
+  for (const s of samples) {
+    if (s.px < minX) minX = s.px;
+    if (s.px > maxX) maxX = s.px;
+    if (s.pz < minZ) minZ = s.pz;
+    if (s.pz > maxZ) maxZ = s.pz;
+  }
+  const cx = (minX + maxX) / 2;
+  const cz = (minZ + maxZ) / 2;
+  const extentX = maxX - minX;
+  const extentZ = maxZ - minZ;
+  const extent = Math.max(extentX, extentZ, 1);
+
+  // Compute camera height so the full extent fits in view.
+  // The camera looks mostly straight down with a slight tilt.
+  // Use the vertical FOV to compute the required distance, then
+  // add a 35% margin so nothing clips behind the UI panels
+  // (controls panel top-left, time slider bottom).
+  const margin = 1.5;
+  const fovRad = camera.fov * Math.PI / 180;
+  const aspect = camera.aspect;
+  // The limiting axis: if data is wider than tall (in screen terms),
+  // the horizontal FOV is the constraint; otherwise vertical.
+  const hFov = 2 * Math.atan(Math.tan(fovRad / 2) * aspect);
+  const requiredDistV = (extent * margin / 2) / Math.tan(fovRad / 2);
+  const requiredDistH = (extent * margin / 2) / Math.tan(hFov / 2);
+  const dist = Math.max(requiredDistV, requiredDistH);
+
+  // Place the orbit target at the data centroid on the ground plane
+  controls.target.set(cx, 0, cz);
+
+  // Camera above and slightly offset for a gentle angle.
+  // The Z offset tilts the view slightly, so we shift the target
+  // forward (toward -Z in screen) to compensate for the tilt
+  // pushing the bottom of the data down.
+  const tiltOffset = dist * 0.15;
+  camera.position.set(cx, dist * 0.97, cz + tiltOffset);
+  camera.lookAt(cx, 0, cz);
+  controls.update();
+
+  // Save as initial state for reset
+  initialCameraPos.copy(camera.position);
+  initialTarget.copy(controls.target);
+}
+
+/* =====================================================================
+   TIME-BASED VISIBILITY
+   
+   For each track, we use binary search to find how many points fall
+   at or before currentTime. We then:
+     - Set lineObj.geometry.drawRange to show only those segments
+     - Set instMesh.count to show only those point markers
+   
+   This avoids rebuilding geometry on every frame.
+   ===================================================================== */
+function updateVisibility() {
+  for (const id of Object.keys(trackGroups)) {
+    const tg = trackGroups[id];
+    const pts = tg.points;
+
+    // If group is hidden (filter), skip
+    if (!tg.group.visible) continue;
+
+    // Binary search for the count of points with timestamp <= currentTime
+    let lo = 0, hi = pts.length;
+    while (lo < hi) {
+      const mid = (lo + hi) >>> 1;
+      if (pts[mid].timestamp <= currentTime) lo = mid + 1;
+      else hi = mid;
+    }
+    const count = lo; // number of visible points
+
+    // Update line draw range (count vertices = count, but line needs at least 2)
+    tg.lineObj.geometry.setDrawRange(0, count);
+
+    // Update instanced mesh visible count
+    tg.instMesh.count = count;
+  }
+}
+
+/* =====================================================================
+   FILTER DROPDOWN
+   ===================================================================== */
+function populateFilter(ids) {
+  const sel = document.getElementById('id-filter');
+  // Keep the "All tracks" option, remove old entries
+  while (sel.options.length > 1) sel.remove(1);
+
+  for (const id of ids) {
+    const opt = document.createElement('option');
+    opt.value = id;
+    const tg = trackGroups[id];
+    opt.textContent = id + ' (' + tg.points.length + ' pts)';
+    opt.style.color = tg.color;
+    sel.appendChild(opt);
+  }
+}
+
+function applyFilter(selectedId) {
+  for (const id of Object.keys(trackGroups)) {
+    trackGroups[id].group.visible = (selectedId === '__all__' || selectedId === id);
+  }
+}
+
+/* =====================================================================
+   TIME SLIDER UI
+   ===================================================================== */
+function updateTimeSliderUI() {
+  const slider = document.getElementById('time-slider');
+  const label = document.getElementById('time-label');
+
+  if (globalMaxTime <= globalMinTime) {
+    label.textContent = '—';
+    return;
+  }
+
+  // Map currentTime to slider position
+  const frac = (currentTime - globalMinTime) / (globalMaxTime - globalMinTime);
+  slider.value = Math.round(frac * 1000);
+
+  // Format date nicely
+  const d = new Date(currentTime);
+  label.textContent = d.toISOString().replace('T', ' ').replace(/\.\d+Z$/, ' UTC');
+}
+
+function onSliderInput() {
+  const slider = document.getElementById('time-slider');
+  const frac = parseFloat(slider.value) / 1000;
+  currentTime = globalMinTime + frac * (globalMaxTime - globalMinTime);
+  updateTimeSliderUI();
+  updateVisibility();
+}
+
+function togglePlayback() {
+  isPlaying = !isPlaying;
+  const btn = document.getElementById('btn-play');
+  btn.innerHTML = isPlaying ? '&#10074;&#10074; Pause' : '&#9654; Play';
+  if (isPlaying) {
+    lastFrameTime = performance.now();
+    // If at max, restart from beginning
+    if (currentTime >= globalMaxTime) {
+      currentTime = globalMinTime;
+      updateTimeSliderUI();
+      updateVisibility();
+    }
+  } else {
+    lastFrameTime = 0;
+  }
+}
+
+/* =====================================================================
+   DOUBLE-CLICK / DOUBLE-TAP TO RE-CENTER
+   
+   On double-click (or double-tap on touch), cast a ray from the
+   cursor into the scene. If it hits a point marker, move the orbit
+   target to that 3D position so the user can zoom into that area.
+   ===================================================================== */
+function onDoubleClick(event) {
+  // Compute normalized device coordinates
+  const rect = renderer.domElement.getBoundingClientRect();
+  let clientX, clientY;
+
+  if (event.touches) {
+    // Touch event
+    clientX = event.touches[0] ? event.touches[0].clientX : event.changedTouches[0].clientX;
+    clientY = event.touches[0] ? event.touches[0].clientY : event.changedTouches[0].clientY;
+  } else {
+    clientX = event.clientX;
+    clientY = event.clientY;
+  }
+
+  mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  // Collect all instanced meshes for intersection test
+  const meshes = [];
+  for (const id of Object.keys(trackGroups)) {
+    if (trackGroups[id].group.visible) {
+      meshes.push(trackGroups[id].instMesh);
+    }
+  }
+
+  const hits = raycaster.intersectObjects(meshes, false);
+
+  if (hits.length > 0) {
+    const hit = hits[0];
+    const point = hit.point;
+    // Smoothly move orbit target to hit point
+    animateOrbitTarget(point.x, point.y, point.z);
+  }
+}
+
+function animateOrbitTarget(tx, ty, tz) {
+  const startTarget = controls.target.clone();
+  const endTarget = new THREE.Vector3(tx, ty, tz);
+  const startTime = performance.now();
+  const duration = 400; // ms
+
+  function step() {
+    const elapsed = performance.now() - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const ease = 1 - Math.pow(1 - t, 3);
+    controls.target.lerpVectors(startTarget, endTarget, ease);
+    controls.update();
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// Double-tap detection for touch devices
+let lastTapTime = 0;
+function onTouchEnd(event) {
+  const now = Date.now();
+  if (now - lastTapTime < 350) {
+    // Double tap detected
+    event.preventDefault();
+    onDoubleClick(event);
+  }
+  lastTapTime = now;
+}
+
+/* =====================================================================
+   ERROR / STATUS DISPLAY
+   ===================================================================== */
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  document.getElementById('status-msg').style.display = 'none';
+}
+
+function showStatus(msg) {
+  const el = document.getElementById('status-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  document.getElementById('error-msg').style.display = 'none';
+}
+
+function clearMessages() {
+  document.getElementById('error-msg').style.display = 'none';
+  document.getElementById('status-msg').style.display = 'none';
+}
+
+/* =====================================================================
+   FILE LOADING
+   ===================================================================== */
+async function loadFile() {
+  clearMessages();
+  const fileInput = document.getElementById('file-input');
+  if (!fileInput.files || fileInput.files.length === 0) {
+    showError('Please select a CSV file first.');
+    return;
+  }
+
+  const file = fileInput.files[0];
+  showStatus('Reading ' + file.name + '...');
+
+  try {
+    const text = await file.text();
+    showStatus('Parsing CSV...');
+    const samples = await parseCSV(text);
+    allSamples = samples;
+
+    showStatus('Building ' + samples.length + ' points across ' +
+      new Set(samples.map(s => s.id)).size + ' tracks...');
+
+    buildTracks(samples);
+
+    // Show time panel
+    document.getElementById('time-panel').style.display = 'flex';
+    // Initialize slider to max (show all)
+    currentTime = globalMaxTime;
+    updateTimeSliderUI();
+    updateVisibility();
+
+    // Stop any playback
+    isPlaying = false;
+    document.getElementById('btn-play').innerHTML = '&#9654; Play';
+    lastFrameTime = 0;
+
+    const trackCount = Object.keys(trackGroups).length;
+    showStatus('Loaded ' + samples.length + ' points, ' + trackCount + ' tracks.');
+
+  } catch (err) {
+    showError(err.message);
+  }
+}
+
+/* =====================================================================
+   RESET CAMERA
+   ===================================================================== */
+function resetCamera() {
+  if (allSamples.length > 0) {
+    fitCameraToData(allSamples);
+  } else {
+    camera.position.copy(initialCameraPos);
+    controls.target.copy(initialTarget);
+    controls.update();
+  }
+}
+
+/* =====================================================================
+   EVENT BINDINGS
+   ===================================================================== */
+function bindEvents() {
+  document.getElementById('btn-load').addEventListener('click', loadFile);
+  document.getElementById('btn-reset').addEventListener('click', resetCamera);
+  document.getElementById('id-filter').addEventListener('change', (e) => {
+    applyFilter(e.target.value);
+  });
+
+  // Time controls
+  document.getElementById('time-slider').addEventListener('input', onSliderInput);
+  document.getElementById('btn-play').addEventListener('click', togglePlayback);
+
+  // Speed slider
+  const speedSlider = document.getElementById('speed-slider');
+  const speedValue = document.getElementById('speed-value');
+  speedSlider.addEventListener('input', () => {
+    playbackSpeed = parseFloat(speedSlider.value);
+    speedValue.textContent = playbackSpeed + 'x';
+  });
+
+  // Double-click to re-center
+  renderer.domElement.addEventListener('dblclick', onDoubleClick);
+
+  // Double-tap for touch (iPad)
+  renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false });
+
+  // Prevent iOS Safari from intercepting multi-touch gestures on the canvas.
+  // This is critical for pinch-zoom to work via OrbitControls instead of
+  // triggering the browser's page zoom.
+  renderer.domElement.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
+  renderer.domElement.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
+  renderer.domElement.addEventListener('gestureend', (e) => e.preventDefault(), { passive: false });
+}
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+initScene();
+bindEvents();
+
+</script>
+<script data-pplx-inline-edit>
+(function(){
+  if(window===window.top)return;
+  function inlineAll(orig,clone){
+    if(orig.nodeType!==1)return;
+    try{
+      var cs=getComputedStyle(orig);
+      var t='';
+      for(var i=0;i<cs.length;i++){t+=cs[i]+':'+cs.getPropertyValue(cs[i])+';';}
+      clone.style.cssText=t;
+    }catch(e){}
+    var oc=orig.children,cc=clone.children;
+    for(var j=0;j<oc.length&&j<cc.length;j++){inlineAll(oc[j],cc[j]);}
+  }
+  function stripExternal(clone){
+    var imgs=clone.querySelectorAll('img');
+    for(var i=0;i<imgs.length;i++){
+      var s=imgs[i].getAttribute('src');
+      if(s&&!s.startsWith('data:'))imgs[i].removeAttribute('src');
+    }
+    var all=clone.querySelectorAll('*');
+    for(var i=0;i<all.length;i++){
+      var st=all[i].style.cssText;
+      if(st&&st.indexOf('url(')>=0){
+        all[i].style.cssText=st.replace(/url\(["']?(?!data:)[^)"']*["']?\)/gi,'none');
+      }
+    }
+  }
+  window.addEventListener('message',function(e){
+    if(!e.data||e.data.type!=='INLINE_EDIT_CAPTURE_REQUEST')return;
+    var scrollX=window.scrollX||window.pageXOffset||0;
+    var scrollY=window.scrollY||window.pageYOffset||0;
+    var w=window.innerWidth,h=window.innerHeight;
+    try{
+      var clone=document.documentElement.cloneNode(true);
+      var rm=clone.querySelectorAll('script,link[rel="stylesheet"],style');
+      for(var i=0;i<rm.length;i++){rm[i].remove();}
+      inlineAll(document.documentElement,clone);
+      stripExternal(clone);
+      var html=new XMLSerializer().serializeToString(clone);
+      var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'
+        +'<foreignObject width="100%" height="100%">'
+        +'<div xmlns="http://www.w3.org/1999/xhtml" style="width:'+w+'px;height:'+h+'px;overflow:hidden">'
+        +'<div style="transform:translate(-'+scrollX+'px,-'+scrollY+'px);transform-origin:top left">'
+        +html+'</div></div></foreignObject></svg>';
+      var svgUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+      var img=new Image();
+      img.onload=function(){
+        var c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0);
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:c.toDataURL('image/png'),scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.onerror=function(){
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.src=svgUrl;
+    }catch(err){
+      window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+    }
+  });
+})();
+</script></body>
+</html>
