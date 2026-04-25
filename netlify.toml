@@ -1,5 +1,7 @@
+
 [build]
-  command = "echo 'No build step needed'"
+  command = "npm install"
   publish = "src"
+
 [functions]
-  directory = "src/DailyTracker/netlify/functions"  
+  directory = "src/DailyTracker/netlify/functions"
