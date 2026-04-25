@@ -30,12 +30,17 @@ export default async (request) => {
       CREATE TABLE IF NOT EXISTS entries (
         id SERIAL PRIMARY KEY,
         timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        sleep INTEGER NOT NULL,
-        dizziness INTEGER NOT NULL,
-        alertness INTEGER NOT NULL,
-        sex INTEGER NOT NULL
+        sleep INTEGER,
+        dizziness INTEGER,
+        alertness INTEGER,
+        sex INTEGER
       )
     `;
+
+    await sql`ALTER TABLE entries ALTER COLUMN sleep DROP NOT NULL`;
+    await sql`ALTER TABLE entries ALTER COLUMN dizziness DROP NOT NULL`;
+    await sql`ALTER TABLE entries ALTER COLUMN alertness DROP NOT NULL`;
+    await sql`ALTER TABLE entries ALTER COLUMN sex DROP NOT NULL`;
 
     if (method === "GET" && exportCsv) {
       const rows = await sql`SELECT * FROM entries ORDER BY timestamp ASC`;
@@ -66,7 +71,7 @@ export default async (request) => {
       const { sleep, dizziness, alertness, sex } = body;
       const result = await sql`
         INSERT INTO entries (sleep, dizziness, alertness, sex)
-        VALUES (${sleep}, ${dizziness}, ${alertness}, ${sex})
+        VALUES (${sleep ?? null}, ${dizziness ?? null}, ${alertness ?? null}, ${sex ?? null})
         RETURNING id
       `;
       return new Response(JSON.stringify({ success: true, id: result[0].id }), {
