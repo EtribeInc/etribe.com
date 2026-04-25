@@ -1,6 +1,5 @@
-
 [build]
-  command = "npm install"
+  command = "cd src/DailyTracker/netlify/functions && npm install"
   publish = "src"
 
 [functions]
