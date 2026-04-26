@@ -93,9 +93,7 @@
       align-items: center;
     }
     .btn-clear {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
+      margin-left: auto;
       background: var(--border);
       color: var(--text);
     }
@@ -193,6 +191,9 @@
       </thead>
       <tbody id="table-body"></tbody>
     </table>
+    <div style="display:flex; justify-content:flex-end; margin-top:1rem;">
+      <button class="btn-clear" onclick="clearAll()">Clear All Data</button>
+    </div>
   </div>
 
 <script>
@@ -342,7 +343,5 @@
 
   loadData();
 </script>
-
-<button class="btn-clear" onclick="clearAll()">Clear All Data</button>
 </body>
 </html>
