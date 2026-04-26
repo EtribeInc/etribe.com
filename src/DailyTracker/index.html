@@ -92,8 +92,12 @@
       flex-wrap: wrap;
       align-items: center;
     }
-    .btn-row .btn-danger {
-      margin-left: auto;
+    .btn-clear {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--border);
+      color: var(--text);
     }
     button {
       padding: 0.5rem 1.25rem;
@@ -166,7 +170,6 @@
     <div class="btn-row">
       <button class="btn-primary" onclick="submitEntry()">Submit</button>
       <button class="btn-secondary" onclick="exportCsv()">Export CSV</button>
-      <button class="btn-danger" onclick="clearAll()">Clear All Data</button>
     </div>
     <div class="status" id="status"></div>
   </div>
@@ -339,5 +342,7 @@
 
   loadData();
 </script>
+
+<button class="btn-clear" onclick="clearAll()">Clear All Data</button>
 </body>
 </html>
