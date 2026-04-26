@@ -33,7 +33,9 @@ export default async (request) => {
         sleep INTEGER,
         dizziness INTEGER,
         alertness INTEGER,
-        sex INTEGER
+        sex INTEGER,
+        workout INTEGER,
+        notes TEXT
       )
     `;
 
@@ -41,6 +43,8 @@ export default async (request) => {
     await sql`ALTER TABLE entries ALTER COLUMN dizziness DROP NOT NULL`;
     await sql`ALTER TABLE entries ALTER COLUMN alertness DROP NOT NULL`;
     await sql`ALTER TABLE entries ALTER COLUMN sex DROP NOT NULL`;
+    await sql`ALTER TABLE entries ADD COLUMN IF NOT EXISTS workout INTEGER`;
+    await sql`ALTER TABLE entries ADD COLUMN IF NOT EXISTS notes TEXT`;
 
     if (method === "GET" && exportCsv) {
       const rows = await sql`SELECT * FROM entries ORDER BY timestamp ASC`;
@@ -68,10 +72,10 @@ export default async (request) => {
 
     if (method === "POST") {
       const body = await request.json();
-      const { sleep, dizziness, alertness, sex } = body;
+      const { sleep, dizziness, alertness, sex, workout, notes } = body;
       const result = await sql`
-        INSERT INTO entries (sleep, dizziness, alertness, sex)
-        VALUES (${sleep ?? null}, ${dizziness ?? null}, ${alertness ?? null}, ${sex ?? null})
+        INSERT INTO entries (sleep, dizziness, alertness, sex, workout, notes)
+        VALUES (${sleep ?? null}, ${dizziness ?? null}, ${alertness ?? null}, ${sex ?? null}, ${workout ?? null}, ${notes ?? null})
         RETURNING id
       `;
       return new Response(JSON.stringify({ success: true, id: result[0].id }), {

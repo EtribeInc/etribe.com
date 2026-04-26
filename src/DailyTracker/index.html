@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daily Tracker</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
@@ -17,6 +17,7 @@
       --dizziness: #ef9a9a;
       --alertness: #a5d6a7;
       --sex: #ce93d8;
+      --workout: #ffcc80;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -28,8 +29,9 @@
       margin: 0 auto;
     }
     h1 {
-      font-size: 1.4rem;
-      font-weight: 600;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.54rem;
+      font-weight: 700;
       letter-spacing: 0.05em;
       margin-bottom: 0.25rem;
     }
@@ -70,6 +72,20 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.9rem;
     }
+    .notes-area {
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      resize: vertical;
+      min-height: 3.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .notes-area::placeholder { color: var(--muted); }
     .btn-row {
       display: flex;
       gap: 0.75rem;
@@ -141,7 +157,12 @@
         <label style="color: var(--sex)">Sex</label>
         <select id="sex"><option value="">—</option></select>
       </div>
+      <div class="form-group">
+        <label style="color: var(--workout)">Workout</label>
+        <select id="workout"><option value="">—</option></select>
+      </div>
     </div>
+    <textarea id="notes" class="notes-area" placeholder="Add a note... (optional)"></textarea>
     <div class="btn-row">
       <button class="btn-primary" onclick="submitEntry()">Submit</button>
       <button class="btn-secondary" onclick="exportCsv()">Export CSV</button>
@@ -163,6 +184,8 @@
           <th style="color:var(--dizziness)">Dizziness</th>
           <th style="color:var(--alertness)">Alertness</th>
           <th style="color:var(--sex)">Sex</th>
+          <th style="color:var(--workout)">Workout</th>
+          <th>Notes</th>
         </tr>
       </thead>
       <tbody id="table-body"></tbody>
@@ -179,7 +202,7 @@
   };
 
   // Populate dropdowns
-  ["sleep","dizziness","alertness","sex"].forEach(id => {
+  ["sleep","dizziness","alertness","sex","workout"].forEach(id => {
     const sel = document.getElementById(id);
     for (let i = 0; i <= 10; i++) {
       const opt = document.createElement("option");
@@ -225,6 +248,7 @@
           { label: "Dizziness", data: entries.map(e => e.dizziness), borderColor: "#ef9a9a", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
           { label: "Alertness", data: entries.map(e => e.alertness), borderColor: "#a5d6a7", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
           { label: "Sex", data: entries.map(e => e.sex), borderColor: "#ce93d8", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
+          { label: "Workout", data: entries.map(e => e.workout), borderColor: "#ffcc80", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
         ]
       },
       options: {
@@ -246,10 +270,12 @@
     tbody.innerHTML = last10.map(e => `
       <tr>
         <td>${formatTs(e.timestamp)}</td>
-        <td style="color:var(--sleep)">${e.sleep}</td>
-        <td style="color:var(--dizziness)">${e.dizziness}</td>
-        <td style="color:var(--alertness)">${e.alertness}</td>
-        <td style="color:var(--sex)">${e.sex}</td>
+        <td style="color:var(--sleep)">${e.sleep ?? "—"}</td>
+        <td style="color:var(--dizziness)">${e.dizziness ?? "—"}</td>
+        <td style="color:var(--alertness)">${e.alertness ?? "—"}</td>
+        <td style="color:var(--sex)">${e.sex ?? "—"}</td>
+        <td style="color:var(--workout)">${e.workout ?? "—"}</td>
+        <td style="color:var(--muted)">${e.notes ?? ""}</td>
       </tr>
     `).join("");
   }
@@ -266,23 +292,26 @@
   }
 
   async function submitEntry() {
-    const fields = ["sleep","dizziness","alertness","sex"];
+    const dropdowns = ["sleep","dizziness","alertness","sex","workout"];
     const body = {};
     let hasAny = false;
-    for (const f of fields) {
+    for (const f of dropdowns) {
       const val = document.getElementById(f).value;
       if (val !== "") {
         body[f] = parseInt(val);
         hasAny = true;
       }
     }
-    if (!hasAny) {
+    const notes = document.getElementById("notes").value.trim();
+    if (notes) body.notes = notes;
+    if (!hasAny && !notes) {
       document.getElementById("status").textContent = "Please fill in at least one field.";
       return;
     }
     try {
       await fetch(API, { method: "POST", headers, body: JSON.stringify(body) });
-      fields.forEach(f => { document.getElementById(f).value = ""; });
+      dropdowns.forEach(f => { document.getElementById(f).value = ""; });
+      document.getElementById("notes").value = "";
       document.getElementById("status").textContent = "Saved!";
       setTimeout(() => document.getElementById("status").textContent = "", 2000);
       loadData();
