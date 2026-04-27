@@ -233,6 +233,14 @@
 
   let chart = null;
 
+  function forwardFill(entries, key) {
+    let last = null;
+    return entries.map(e => {
+      if (e[key] !== null && e[key] !== undefined) last = e[key];
+      return last;
+    });
+  }
+
   function renderChart(entries) {
     const labels = entries.map(e => formatTs(e.timestamp));
     const minWidth = Math.max(600, entries.length * 40);
@@ -248,11 +256,11 @@
       data: {
         labels,
         datasets: [
-          { label: "Sleep", data: entries.map(e => e.sleep), borderColor: "#4fc3f7", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
-          { label: "Dizziness", data: entries.map(e => e.dizziness), borderColor: "#ef9a9a", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
-          { label: "Alertness", data: entries.map(e => e.alertness), borderColor: "#a5d6a7", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
-          { label: "Sex", data: entries.map(e => e.sex), borderColor: "#ce93d8", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
-          { label: "Workout", data: entries.map(e => e.workout), borderColor: "#ffcc80", backgroundColor: "transparent", tension: 0.3, pointRadius: 4 },
+          { label: "Sleep", data: forwardFill(entries, "sleep"), borderColor: "#4fc3f7", backgroundColor: "transparent", tension: 0.3, pointRadius: 4, spanGaps: true },
+          { label: "Dizziness", data: forwardFill(entries, "dizziness"), borderColor: "#ef9a9a", backgroundColor: "transparent", tension: 0.3, pointRadius: 4, spanGaps: true },
+          { label: "Alertness", data: forwardFill(entries, "alertness"), borderColor: "#a5d6a7", backgroundColor: "transparent", tension: 0.3, pointRadius: 4, spanGaps: true },
+          { label: "Sex", data: forwardFill(entries, "sex"), borderColor: "#ce93d8", backgroundColor: "transparent", tension: 0.3, pointRadius: 4, spanGaps: true },
+          { label: "Workout", data: forwardFill(entries, "workout"), borderColor: "#ffcc80", backgroundColor: "transparent", tension: 0.3, pointRadius: 4, spanGaps: true },
         ]
       },
       options: {
