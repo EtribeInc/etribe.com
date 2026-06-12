@@ -12,7 +12,7 @@ pc.script.createLoadingScreen(function (app) {
         splash.style.display = 'none';
 
         var logo = document.createElement('img');
-        logo.src = 'https://etribe.com/content/BrandLive/images/splashLogo_01.png';
+        logo.src = 'https://www.tellyclub.com/static/media/Telly-Club-WHITE.8fbdd40d.svg';
         splash.appendChild(logo);
         logo.onload = function () {
             splash.style.display = 'block';
@@ -26,6 +26,11 @@ pc.script.createLoadingScreen(function (app) {
         bar.id = 'progress-bar';
         container.appendChild(bar);
 
+        var subtitle = document.createElement('p');
+        subtitle.innerHTML = "Welcome to the club! The experience works best with headphones.";
+        subtitle.id = 'subtitle';
+        splash.appendChild(subtitle);
+
     };
 
     var hideSplash = function () {
@@ -35,7 +40,7 @@ pc.script.createLoadingScreen(function (app) {
 
     var setProgress = function (value) {
         var bar = document.getElementById('progress-bar');
-        if(bar) {
+        if (bar) {
             value = Math.min(1, Math.max(0, value));
             bar.style.width = value * 100 + '%';
         }
@@ -44,7 +49,7 @@ pc.script.createLoadingScreen(function (app) {
     var createCss = function () {
         var css = [
             'body {',
-            '    background-color: #283538;',
+            '    background-color: #1A1A1F;',
             '}',
             '',
             '#application-splash-wrapper {',
@@ -53,7 +58,7 @@ pc.script.createLoadingScreen(function (app) {
             '    left: 0;',
             '    height: 100%;',
             '    width: 100%;',
-            '    background-color: #283538;',
+            '    background-color: #1A1A1F;',
             '}',
             '',
             '#application-splash {',
@@ -77,7 +82,14 @@ pc.script.createLoadingScreen(function (app) {
             '#progress-bar {',
             '    width: 0%;',
             '    height: 100%;',
-            '    background-color: #f60;',
+            '    background: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 18.75%, #b8fd33 43.75%, #fec837 58.75%, #fd1892 93.75%);',
+            '}',
+            '',
+            '#subtitle {',
+            '   color: white;',
+            '   text-align: center;',
+            '   margin-top: 66px;',
+            '   font-style: italic;',
             '}',
             '',
             '@media (max-width: 480px) {',

@@ -1,27 +1,65 @@
 /*jshint esversion: 9 */
-importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0/dist/tf.min.js");
-importScripts("https://unpkg.com/@tensorflow-models/blazeface");
-importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.min.js");
+// importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0/dist/tf.min.js");
+//importScripts("https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js");
+// importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.min.js");
+
+let initialized = false;
+let model;
+
+// tf.wasm.setWasmPaths({
+//     'tfjs-backend-wasm.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm.wasm',
+//     'tfjs-backend-wasm-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm-simd.wasm',
+//     'tfjs-backend-wasm-threaded-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm-threaded-simd.wasm'
+// });
+// tf.setBackend('wasm').then(
+//     async ()=>{
+//         model = await blazeface.load();
+//         initialized=true;
+//     }
+// );
 
 
-onmessage = function(img) {
+onmessage = function (event) {
 
-    //create ImageData object for use in tfjs
-    const image = new ImageData(img.data.data, img.data.width, img.data.height);
-    
-    tf.wasm.setWasmPaths({
-        'tfjs-backend-wasm.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm.wasm',
-        'tfjs-backend-wasm-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm-simd.wasm',
-        'tfjs-backend-wasm-threaded-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/wasm-out/tfjs-backend-wasm-threaded-simd.wasm'
-    });
-    tf.setBackend('wasm').then(
-        () => detectFace(
-            tf.tidy(()=>{
-                    return tf.browser.fromPixels(image);
-            }),img.data.width,img.data.height
-        )
-    );
-    
+    if (!initialized && event.data.setup) {
+        importScripts(event.data.setup.tfjs);
+        importScripts(event.data.setup.backend);
+        importScripts(event.data.setup.model);
+
+        tf.wasm.setWasmPaths({
+            'tfjs-backend-wasm.wasm': event.data.setup.wasmPaths.wasm,
+            'tfjs-backend-wasm-simd.wasm': event.data.setup.wasmPaths.simd,
+            'tfjs-backend-wasm-threaded-simd.wasm': event.data.setup.wasmPaths.threaded
+        });
+
+        tf.setBackend('wasm').then(
+            async () => {
+                model = await blazeface.load();
+                initialized = true;
+                postMessage({
+                    "type": "message",
+                    "msg": "TFJS worker initialized and model loaded."
+                });
+                postMessage({
+                    "type": "setup",
+                    "result": "success"
+                });
+            }
+        );
+    } else if (event.data.imgData) {
+        const image = new ImageData(event.data.imgData, event.data.width, event.data.height);
+        detectFace(
+            tf.tidy(() => {
+                return tf.browser.fromPixels(image);
+            }), event.data.width, event.data.height
+        );
+    } else {
+        postMessage({
+            "type": "data",
+            "cropTarget": [[0, 0], [1, 1]]
+        });
+    }
+
 
     //console.table( tf.memory() );
 
@@ -31,7 +69,6 @@ async function detectFace(img, width, height) {
 
     tf.engine().startScope();
 
-    const model = await blazeface.load();
     const returnTensors = false;
     const predictions = await model.estimateFaces(img, returnTensors);
     var cropArea = null;
@@ -55,66 +92,69 @@ async function detectFace(img, width, height) {
           }
         ]
         */
-        
+
         //TODO add relative border and adjust ratio to screen size
         var start = predictions[0].topLeft;
         var end = predictions[0].bottomRight;
 
         cropArea = CalculateCroppingArea(start, end, width, height);
     }
-    postMessage(cropArea);
+    postMessage({
+        "type": "data",
+        "cropTarget": cropArea
+    });
 
     tf.engine().endScope();
     img.dispose();
 }
 
-function CalculateCroppingArea(start, end, width, height){
-    
+function CalculateCroppingArea(start, end, width, height) {
+
     var cropWidth = (end[0] - start[0]);
     var cropHeight = (end[1] - start[1]);
-    
-    var cropCenter = [start[0] + cropWidth/2, start[1] + cropHeight/2];
-    
+
+    var cropCenter = [start[0] + cropWidth / 2, start[1] + cropHeight / 2];
+
     cropWidth *= 1.4;
     cropHeight *= 1.4;
-    
-    if(cropWidth > width){
+
+    if (cropWidth > width) {
         cropWidth = width;
     }
-    
-    if(cropWidth > height){
+
+    if (cropWidth > height) {
         cropWidth = height;
     }
-    
-    
-    
-    start = [cropCenter[0] - (cropWidth)/2, cropCenter[1] - (cropWidth)/2];
-    end = [cropCenter[0] + (cropWidth)/2, cropCenter[1] + (cropWidth)/2];
-    
+
+
+
+    start = [cropCenter[0] - (cropWidth) / 2, cropCenter[1] - (cropWidth) / 2];
+    end = [cropCenter[0] + (cropWidth) / 2, cropCenter[1] + (cropWidth) / 2];
+
     //normalize predicted area
     start[0] /= width;
     end[0] /= width;
     start[1] /= height;
     end[1] /= height;
 
-    if(start[0] < 0){
+    if (start[0] < 0) {
         end[0] += Math.abs(start[0]);
         start[0] = 0;
     }
-    if (end[0] > 1){
-        start[0] -= end[0]-1;
+    if (end[0] > 1) {
+        start[0] -= end[0] - 1;
         end[0] = 1;
     }
-    
-    if (end[1] > 1){
-        start[1] -= end[1]-1;
+
+    if (end[1] > 1) {
+        start[1] -= end[1] - 1;
         end[1] = 1;
     }
-    if(start[1] < 0){
+    if (start[1] < 0) {
         end[1] += Math.abs(start[1]);
         start[1] = 0;
-    } 
-    
+    }
+
     //combine area
     var cropArea = [start, end];
     return cropArea;

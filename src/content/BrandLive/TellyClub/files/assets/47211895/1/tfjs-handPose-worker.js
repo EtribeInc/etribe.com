@@ -1,28 +1,47 @@
 /*jshint esversion: 9 */
-importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.6.0/dist/tf.min.js");
-importScripts("https://unpkg.com/@tensorflow-models/handpose");
-importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/dist/tf-backend-wasm.min.js");
+// importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.6.0/dist/tf.min.js");
+// importScripts("https://unpkg.com/@tensorflow-models/handpose");
+// importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/dist/tf-backend-wasm.min.js");
+let initialized = false;
+let model;
 
+onmessage = function (event) {
 
-onmessage = function(img) {
+    if (!initialized && event.data.setup) {
+        importScripts(event.data.setup.tfjs);
+        importScripts(event.data.setup.backend);
+        importScripts(event.data.setup.model);
 
-    //create ImageData object for use in tfjs
-    const image = new ImageData(img.data.data, img.data.width, img.data.height);
-    
-    tf.wasm.setWasmPaths({
-        'tfjs-backend-wasm.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/wasm-out/tfjs-backend-wasm.wasm',
-        'tfjs-backend-wasm-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/wasm-out/tfjs-backend-wasm-simd.wasm',
-        'tfjs-backend-wasm-threaded-simd.wasm': 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.6.0/wasm-out/tfjs-backend-wasm-threaded-simd.wasm'
-    });
-    tf.setBackend('wasm').then(
-        () => detectHand(
+        tf.wasm.setWasmPaths({
+            'tfjs-backend-wasm.wasm': event.data.setup.wasmPaths.wasm,
+            'tfjs-backend-wasm-simd.wasm': event.data.setup.wasmPaths.simd,
+            'tfjs-backend-wasm-threaded-simd.wasm': event.data.setup.wasmPaths.threaded
+        });
+
+        tf.setBackend('wasm').then(
+            async () => {
+                model = await handpose.load();
+                initialized = true;
+                postMessage({
+                    "type": "message",
+                    "msg": "TFJS worker initialized and model loaded."
+                });
+                postMessage({
+                    "type": "setup",
+                    "result": "success"
+                });
+            }
+        );
+    } else if (event.data.imgData) {
+        const image = new ImageData(event.data.imgData, event.data.width, event.data.height);
+        detectHand(
             tf.tidy(() => {
                 return tf.browser.fromPixels(image);
-            })
-        )
-    );
-    
-    
+            }), event.data.width, event.data.height
+        );
+    }
+
+
     //console.table( tf.memory() );
 
 };
@@ -31,11 +50,10 @@ async function detectHand(img) {
 
     tf.engine().startScope();
 
-    const model = await handpose.load();
     // Pass in a video stream (or an image, canvas, or 3D tensor) to obtain a
     // hand prediction from the MediaPipe graph.
     const predictions = await model.estimateHands(img);
-    if (predictions.length > 0) {
+    if (predictions.length > 0 && predictions[0].handInViewConfidence > 0.95) {
         /*
         `predictions` is an array of objects describing each detected hand, for example:
         [
@@ -60,50 +78,56 @@ async function detectHand(img) {
             }
           }
         ]
-        */        
-        
+        */
+
         var distances = getDistances(predictions[0].annotations);
         distances = normalizeDistances(distances);
 
         var handPose = interpretPose(distances);
-        
-        postMessage(handPose);
-        
+
+        postMessage({
+            "type": "data",
+            "pose": handPose
+        });
+
     } else {
-        postMessage(null);
+        postMessage({
+            "type": "data",
+            "pose": null
+        });
     }
-    
+
     tf.engine().endScope();
     img.dispose();
 
     //setTimeout(detectHand, 1000);
-    
+
 }
 
-function interpretPose(distances){
-    if (distances.index > 0.7 && distances.middle > 0.7){
+function interpretPose(distances) {
+    if (distances.index > 0.7 && distances.middle > 0.7) {
         return "wave";
     } else return null;
 }
 
-function normalizeDistances(distances){
+function normalizeDistances(distances) {
     var i;
     var max = 0.0;
-    for(const [key, value] of Object.entries(distances)){
-        if(parseFloat(value) > max){
+    for (const [key, value] of Object.entries(distances)) {
+        if (parseFloat(value) > max) {
             max = parseFloat(value);
         }
     }
-    
-    
-    for(const [key, value] of Object.entries(distances)){
-        distances[key] = parseFloat(value)/max;
+
+
+    for (const [key, value] of Object.entries(distances)) {
+        distances[key] = parseFloat(value) / max;
     }
     return distances;
 }
 
 function getDistances(fingers) {
-    
+
     var distances = {
         thumb: 0,
         index: 0,
@@ -111,33 +135,33 @@ function getDistances(fingers) {
         ring: 0,
         pinky: 0
     };
-    
+
     var x, y;
-        
+
     x = fingers.thumb[3][0] - fingers.palmBase[0][0];
     y = fingers.thumb[3][1] - fingers.palmBase[0][1];
 
-    distances.thumb = Math.sqrt(x*x + y*y);
-    
+    distances.thumb = Math.sqrt(x * x + y * y);
+
     x = fingers.indexFinger[3][0] - fingers.palmBase[0][0];
     y = fingers.indexFinger[3][1] - fingers.palmBase[0][1];
 
-    distances.index = Math.sqrt(x*x + y*y);
-    
+    distances.index = Math.sqrt(x * x + y * y);
+
     x = fingers.middleFinger[3][0] - fingers.palmBase[0][0];
     y = fingers.middleFinger[3][1] - fingers.palmBase[0][1];
 
-    distances.middle = Math.sqrt(x*x + y*y);
-    
+    distances.middle = Math.sqrt(x * x + y * y);
+
     x = fingers.ringFinger[3][0] - fingers.palmBase[0][0];
     y = fingers.ringFinger[3][1] - fingers.palmBase[0][1];
 
-    distances.ring = Math.sqrt(x*x + y*y);
-    
+    distances.ring = Math.sqrt(x * x + y * y);
+
     x = fingers.pinky[3][0] - fingers.palmBase[0][0];
     y = fingers.pinky[3][1] - fingers.palmBase[0][1];
 
-    distances.pinky = Math.sqrt(x*x + y*y);
-    
+    distances.pinky = Math.sqrt(x * x + y * y);
+
     return distances;
 }

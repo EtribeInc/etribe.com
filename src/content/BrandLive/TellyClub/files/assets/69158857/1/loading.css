@@ -1,0 +1,101 @@
+.create-room-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background: #000;
+}
+
+.loader > span {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  margin: 0 10px;
+  padding: 0.5rem;
+  font-weight: 800;
+  background-size: 1000% 1000% !important;
+}
+.loader > span:nth-child(1) {
+  background: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 7.75%, #b8fd33 32.75%, #fec837 47.75%, #fd1892 82.75%);
+}
+.loader > span:nth-child(2) {
+  background: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 10.5%, #b8fd33 35.5%, #fec837 50.5%, #fd1892 85.5%);
+}
+.loader > span:nth-child(3) {
+  background: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 13.25%, #b8fd33 38.25%, #fec837 53.25%, #fd1892 88.25%);
+}
+.loader > span:nth-child(4) {
+  background: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 16%, #b8fd33 41%, #fec837 56%, #fd1892 91%);
+}
+.loader > span:nth-child(5) {
+  background: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 18.75%, #b8fd33 43.75%, #fec837 58.75%, #fd1892 93.75%);
+}
+@media screen and (min-width: 768px) {
+  .loader > span {
+    /* width: 50px; */
+    /* height: 50px; */
+    margin: 0 15px;
+    /* padding: 1rem; */
+  }
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.dot-1 {
+  animation: bounce 1.75s cubic-bezier(0.5, 0.05, 0.4, 0.75) 0.1s infinite, moveGradient 7s alternate infinite;
+}
+
+.dot-2 {
+  animation: bounce 1.75s cubic-bezier(0.5, 0.05, 0.4, 0.75) 0.2s infinite, moveGradient 7s alternate infinite;
+}
+
+.dot-3 {
+  animation: bounce 1.75s cubic-bezier(0.5, 0.05, 0.4, 0.75) 0.3s infinite, moveGradient 7s alternate infinite;
+}
+
+.dot-4 {
+  animation: bounce 1.75s cubic-bezier(0.5, 0.05, 0.4, 0.75) 0.4s infinite, moveGradient 7s alternate infinite;
+}
+
+.dot-5 {
+  animation: bounce 1.75s cubic-bezier(0.5, 0.05, 0.4, 0.75) 0.5s infinite, moveGradient 7s alternate infinite;
+}
+
+@keyframes bounce {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    -webkit-transform: translate3d(0, 50px, 0);
+    transform: translate3d(0, 50px, 0);
+  }
+  45% {
+    -webkit-transform: translate3d(0, -25px, 0);
+    transform: translate3d(0, -25px, 0);
+  }
+  65% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes moveGradient {
+  100% {
+    background-position: 50% 50%;
+  }
+}
+@keyframes moveGradient {
+  100% {
+    background-position: 50% 50%;
+  }
+}
