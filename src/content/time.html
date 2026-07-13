@@ -24,7 +24,7 @@
       margin: 20px 0;
     }
 
-    #counter, #countdown {
+    #counter, #midterms, #countdown {
       font-size: clamp(1.5rem, 5vw, 2.5rem); /* Responsive text size */
       line-height: 1.4;
       padding: 1rem;
@@ -70,6 +70,8 @@
 
   <h1>Time Since Inauguration</h1>
   <div id="counter">Loading...</div>
+  <h1>Time Until The 2026 Midterms</h1>
+  <div id="midterms">Loading...</div>
   <h1>Time Until The End</h1>
   <div id="countdown">Loading...</div>
   
@@ -87,6 +89,9 @@
     // President Trump's inauguration: January 20, 2025 at 12:00 PM EST (17:00:00Z)
     const inaugurationDate = new Date('2025-01-20T17:00:00Z');
 
+    // 2026 Midterm Election Day: November 3, 2026 at 12:00 AM EST (05:00:00Z)
+    const midtermsDate = new Date('2026-11-03T05:00:00Z');
+
     // End of the presidency (assuming a 4-year term): January 20, 2029 at 12:00 PM EST (17:00:00Z)
     const presidencyEndDate = new Date('2029-01-20T17:00:00Z');
 
@@ -100,6 +105,28 @@
       const seconds = Math.floor((timeElapsed / 1000) % 60);
 
       document.getElementById('counter').innerHTML =
+        `<span class="number">${days}</span> days, 
+         <span class="number">${pad(hours)}</span> hours, 
+         <span class="number">${pad(minutes)}</span> minutes, 
+         <span class="number">${pad(seconds)}</span> seconds`;
+    }
+
+    function updateMidterms() {
+      const currentDate = new Date();
+      const timeRemaining = midtermsDate - currentDate;
+
+      // If election day has arrived, display a message.
+      if (timeRemaining <= 0) {
+        document.getElementById('midterms').innerHTML = "Election Day Is Here";
+        return;
+      }
+
+      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+      const seconds = Math.floor((timeRemaining / 1000) % 60);
+
+      document.getElementById('midterms').innerHTML =
         `<span class="number">${days}</span> days, 
          <span class="number">${pad(hours)}</span> hours, 
          <span class="number">${pad(minutes)}</span> minutes, 
@@ -128,14 +155,16 @@
          <span class="number">${pad(seconds)}</span> seconds`;
     }
 
-    // Update both timers every second
+    // Update all three timers every second
     setInterval(() => {
       updateCounter();
+      updateMidterms();
       updateCountdown();
     }, 1000);
 
     // Initial call to display immediately
     updateCounter();
+    updateMidterms();
     updateCountdown();
   </script>
 </body>
